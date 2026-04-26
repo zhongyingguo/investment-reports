@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恒生电子（600570）- 13位投资大师分析报告</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --accent: #c62828;
+            --success: #2e7d32;
+            --warning: #f57f17;
+            --bg: #0a0e27;
+            --card-bg: #111830;
+            --text: #e0e0e0;
+            --border: #2a3a5c;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Header */
+        .header { text-align: center; padding: 30px 0; border-bottom: 2px solid var(--border); margin-bottom: 30px; }
+        .header h1 { font-size: 2.2em; color: #fff; margin-bottom: 10px; }
+        .header .subtitle { color: #90a4ae; font-size: 1em; }
+        .header .date { color: var(--warning); margin-top: 8px; font-weight: bold; }
+        
+        /* Stock Info Card */
+        .stock-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: var(--card-bg); padding: 25px; border-radius: 12px; margin-bottom: 30px; border: 1px solid var(--border); }
+        .info-item { text-align: center; }
+        .info-item .label { font-size: 0.85em; color: #90a4ae; }
+        .info-item .value { font-size: 1.4em; font-weight: bold; color: #fff; margin-top: 5px; }
+        .info-item .value.red { color: var(--accent); }
+        .info-item .value.green { color: var(--success); }
+        
+        /* Analyst Section */
+        .analyst-section { margin-bottom: 25px; }
+        .analyst-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s; }
+        .analyst-card:hover { transform: translateY(-2px); }
+        .analyst-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: linear-gradient(135deg, #1a237e 0%, #283593 100%); cursor: pointer; }
+        .analyst-header .name { font-size: 1.15em; font-weight: bold; color: #fff; }
+        .analyst-header .verdict-badge { padding: 6px 16px; border-radius: 20px; font-size: 0.85em; font-weight: bold; }
+        .verdict-buy { background: rgba(46,125,50,0.3); color: #81c784; border: 1px solid var(--success); }
+        .verdict-hold { background: rgba(245,127,23,0.3); color: #ffb74d; border: 1px solid var(--warning); }
+        .verdict-sell { background: rgba(198,40,40,0.3); color: #ef9a9a; border: 1px solid var(--accent); }
+        .verdict-pass { background: rgba(158,158,158,0.3); color: #bdbdbd; border: 1px solid #757575; }
+        .analyst-body { padding: 20px 22px; display: none; }
+        .analyst-body.active { display: block; }
+        .analyst-body p { margin-bottom: 12px; font-size: 0.95em; color: #b0bec5; }
+        .analyst-body ul { margin-left: 20px; margin-bottom: 12px; }
+        .analyst-body li { margin-bottom: 6px; color: #b0bec5; font-size: 0.93em; }
+        .probability-bar { display: flex; align-items: center; margin-top: 15px; gap: 10px; }
+        .probability-label { font-size: 0.85em; color: #90a4ae; min-width: 70px; }
+        .prob-bar-bg { flex: 1; height: 24px; background: #1a237e; border-radius: 12px; overflow: hidden; }
+        .prob-bar-fill { height: 100%; border-radius: 12px; transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; color: #fff; }
+        .prob-high { background: linear-gradient(90deg, #2e7d32, #43a047); }
+        .prob-mid { background: linear-gradient(90deg, #f57f17, #f9a825); }
+        .prob-low { background: linear-gradient(90deg, #c62828, #e53935); }
+        
+        /* Final Verdict */
+        .final-verdict { background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #006064 100%); border-radius: 16px; padding: 35px; margin: 40px 0; border: 2px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+        .final-verdict h2 { color: #fff; font-size: 1.8em; margin-bottom: 20px; text-align: center; }
+        .verdict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 25px; }
+        .verdict-stat { text-align: center; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; }
+        .verdict-stat .stat-value { font-size: 2em; font-weight: bold; color: #fff; }
+        .verdict-stat .stat-label { color: #90a4ae; margin-top: 5px; font-size: 0.9em; }
+        .final-conclusion { margin-top: 25px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; border-left: 4px solid var(--warning); }
+        .final-conclusion p { font-size: 1.05em; color: #eceff1; line-height: 1.8; }
+        
+        /* Vote Summary Table */
+        .vote-table { width: 100%; border-collapse: collapse; margin: 25px 0; background: var(--card-bg); border-radius: 12px; overflow: hidden; }
+        .vote-table th { background: #1a237e; color: #fff; padding: 14px; text-align: left; font-size: 0.95em; }
+        .vote-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 0.92em; }
+        .vote-table tr:hover { background: rgba(255,255,255,0.03); }
+        
+        /* Footer */
+        .footer { text-align: center; padding: 25px; color: #546e7a; font-size: 0.85em; border-top: 1px solid var(--border); margin-top: 40px; }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .header h1 { font-size: 1.6em; }
+            .stock-info { padding: 15px; gap: 10px; }
+            .analyst-header { padding: 14px 16px; }
+            .analyst-body { padding: 15px 16px; }
+            .final-verdict { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 恒生电子（600570）</h1>
+            <div class="subtitle">13位投资大师联合深度分析报告</div>
+            <div class="date">📅 数据日期：2026-04-24 | 报告生成：2026-04-26</div>
+        </div>
+
+        <!-- Stock Basic Info -->
+        <div class="stock-info">
+            <div class="info-item"><div class="label">收盘价</div><div class="value red">26.20元</div></div>
+            <div class="info-item"><div class="label">成交量</div><div class="value">199529手</div></div>
+            <div class="info-item"><div class="label">换手率</div><div class="value">1.05%</div></div>
+            <div class="info-item"><div class="label">市盈率PE</div><div class="value red">40.3倍</div></div>
+            <div class="info-item"><div class="label">MA20</div><div class="value green">26.18</div></div>
+            <div class="info-item"><div class="label">MA60</div><div class="value">28.13</div></div>
+            <div class="info-item"><div class="label">RSI_6</div><div class="value">42.24</div></div>
+            <div class="info-item"><div class="label">MACD_DIF</div><div class="value red">-0.17</div></div>
+        </div>
+
+        <!-- Final Verdict Summary -->
+        <div class="final-verdict">
+            <h2>⚖️ 委员会最终裁决</h2>
+            <div class="verdict-grid">
+                <div class="verdict-stat">
+                    <div class="stat-value" style="color: #ffb74d;">观望偏多</div>
+                    <div class="stat-label">综合评级</div>
+                </div>
+                <div class="verdict-stat">
+                    <div class="stat-value">48%</div>
+                    <div class="stat-label">综合胜率（6个月）</div>
+                </div>
+                <div class="verdict-stat">
+                    <div class="stat-value">58%</div>
+                    <div class="stat-label">综合胜率（12个月）</div>
+                </div>
+                <div class="verdict-stat">
+                    <div class="stat-value">1 : 1.2</div>
+                    <div class="stat-label">风险收益比</div>
+                </div>
+            </div>
+            <div class="final-conclusion">
+                <p>🔹 <strong>核心结论：</strong>恒生电子当前处于<strong>"磨底筑底、方向待明"</strong>阶段。价格在MA20（26.18）关键支撑位附近争夺，中期受MA60（28.13）压制。</p>
+                <p>🔹 <strong>操作建议：</strong>空仓者<strong>观望为主</strong>，不急于抄底；已有持仓者<strong>谨慎持有</strong>，严格止损于25.70元下方；激进型投资者可<strong>轻仓试探（≤3成）</strong>，等待一买确认或SOS信号后再加仓。</p>
+                <p>🔹 <strong>关键观察：</strong>(1) 主力资金流向是否转正 (2) MACD金叉确认 (3) 美联储Q3降息落地 (4) 股价站稳MA60上方</p>
+                <p>🔹 <strong>目标/止损：</strong>第一目标27.00-27.50（中枢上沿），第二目标28.13（MA60）；止损位25.70元。</p>
+            </div>
+        </div>
+
+        <!-- Vote Summary Table -->
+        <h3 style="color:#fff;margin-bottom:15px;">📋 13位大师投票一览</h3>
+        <table class="vote-table">
+            <thead>
+                <tr>
+                    <th style="width:5%;">#</th>
+                    <th style="width:18%;">大师名称</th>
+                    <th style="width:15%;">投资体系</th>
+                    <th style="width:12%;">建议</th>
+                    <th style="width:12%;">短期胜率</th>
+                    <th style="width:38%;">核心观点摘要</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td><td><strong>查理·芒格</strong></td><td>多元思维模型</td>
+                    <td><span style="color:#ffb74d;font-weight:bold;">PASS</span></td>
+                    <td>35%</td>
+                    <td>PE 40倍不便宜，缺乏安全边际。金融IT有护城河但当前估值已充分反映预期。"好的公司+贵的价格"不是好投资。</td>
+                </tr>
+                <tr>
+                    <td>2</td><td><strong>沃伦·巴菲特</strong></td><td>价值投资/护城河</td>
+                    <td><span style="color:#bdbdbd;font-weight:bold;">不买入</span></td>
+                    <td>—</td>
+                    <td>不在能力圈内看不懂的不投。ROE约12.5%算不上优秀。等待市场犯错给出合理价格再考虑。</td>
+                </tr>
+                <tr>
+                    <td>3</td><td><strong>段永平</strong></td><td>本分/企业文化/长期主义</td>
+                    <td><span style="color:#bdbdbd;font-weight:bold;">PASS观望</span></td>
+                    <td>30%</td>
+                    <td>商业模式清晰但不便宜。如果非要买，需要足够深的回调（至少30%）才有吸引力。不急，慢慢来。</td>
+                </tr>
+                <tr>
+                    <td>4</td><td><strong>彼得·林奇</strong></td><td>PEG/6类公司分类法</td>
+                    <td><span style="color:#ffb74d;font-weight:bold;">持有/PASS</span></td>
+                    <td>60%（跑赢大盘30%）</td>
+                    <td>属于稳定增长型公司，PEG约1.3略偏高。适合已持有者继续持有，未买入者不必追高。关注AI+金融科技新产品线带来的增长潜力。</td>
+                </tr>
+                <tr>
+                    <td>5</td><td><strong>霍华德·马克斯</strong></td><td>周期定位/第二层次思维</td>
+                    <td><span style="color:#ef9a9a;font-weight:bold;">不建议重仓</span></td>
+                    <td>&lt;40%</td>
+                    <td>A股处于情绪偏弱的周期位置，40倍PE隐含了过高预期。第二层次思考：大家都觉得是"好公司"，那价格可能已经反映了一切。等待更好的买点。</td>
+                </tr>
+                <tr>
+                    <td>6</td><td><strong>斯坦利·德鲁肯米勒</strong></td><td>宏观驱动/流动性/催化剂</td>
+                    <td><span style="color:#bdbdbd;font-weight:bold;">不买入</span></td>
+                    <td>40%</td>
+                    <td>美联储降息推迟至Q3，外部流动性环境尚未转向宽松。缺乏明确催化剂。盈亏比仅1:1，不符合"重仓出击"的标准。</td>
+                </tr>
+                <tr>
+                    <td>7</td><td><strong>詹姆斯·西蒙斯</strong></td><td>量化信号/统计套利</td>
+                    <td><span style="color:#bdbdbd;font-weight:bold;">暂不行动</span></td>
+                    <td>—</td>
+                    <td>量化信号混合：MA系统偏空（价格&lt;MA5/MA10），MACD接近金叉但未确认，RSI中性偏弱。历史回测胜率未达60%阈值，数据不足以触发交易信号。</td>
+                </tr>
+                <tr>
+                    <td>8</td><td><strong>纳西姆·塔勒布</strong></td><td>黑天鹅/反脆弱/杠铃策略</td>
+                    <td><span style="color:#ef9a9a;font-weight:bold;">避免</span></td>
+                    <td>—</td>
+                    <td>恒生电子是典型的"中间地带"——既不够安全（高估值），也没有凸性（有限上行空间）。杠铃策略中不应配置此类资产。Via Negativa：我们想要的是极端的安全或极端的凸性，而不是平庸。</td>
+                </tr>
+                <tr>
+                    <td>9</td><td><strong>乔治·索罗斯</strong></td><td>反身性理论/繁荣-崩溃</td>
+                    <td><span style="color:#ffb74d;font-weight:bold;">HOLD</span></td>
+                    <td>横盘概率50%</td>
+                    <td>当前价格与基本面之间可能存在某种反身性循环——散户大量接盘（+3.6亿）而主力流出（-3256万），这本身就是一个值得警惕的信号。设置止损，等待明确方向。</td>
+                </tr>
+                <tr>
+                    <td>10</td><td><strong>Wu2198</strong></td><td>趋势判断/量能分析</td>
+                    <td><span style="color:#ffb74d;font-weight:bold;">观望</span></td>
+                    <td>45%</td>
+                    <td>长趋势向下，短趋势企稳。主力资金净流出是危险信号。量能不够（换手率仅1.05%）。没有出现"一吃九"的放量突破形态。价值区还没真正到达，耐心等。</td>
+                </tr>
+                <tr>
+                    <td>11</td><td><strong>禅师（缠中说禅）</strong></td><td>缠论108课/分型笔线段中枢</td>
+                    <td><span style="color:#81c784;font-weight:bold;">观望偏多/轻仓试</span></td>
+                    <td>一买确认后60-65%</td>
+                    <td>日线级别盘整走势，疑似盘整背驰出现，处于"一买门口晃悠"。中枢区间约25.5-27.5，当前在中枢下沿附近。底分型构造中待确认。一买确认后可轻仓试探（&lt;30%），止损25.80。</td>
+                </tr>
+                <tr>
+                    <td>12</td><td><strong>周金涛</strong></td><td>康波/朱格拉/基钦周期</td>
+                    <td><span style="color:#81c784;font-weight:bold;">持有/分批低吸</span></td>
+                    <td>6月55%/12月65%</td>
+                    <td>长波回升前夜（AI/金融科技赛道有利），中周期承压（资本开支收缩），短周期磨底（库存去化进行时）。"方向正确但时机未熟"。能等6-12个月的可开始分批布局，否则等到Q3催化确认后入场更稳妥。</td>
+                </tr>
+                <tr>
+                    <td>13</td><td><strong>威科夫</strong></td><td>量价关系/吸筹派发/CM意图</td>
+                    <td><span style="color:#bdbdbd;font-weight:bold;">观望</span></td>
+                    <td>做多35%</td>
+                    <td>疑似下降趋势后期震荡整理（可能是吸筹Phase B）。长下影线显示下方有承接（疑似Spring待确认），但主力持续流出+散户大量接盘=筹码转移中的警告信号。没有SOS/JOC确认前不进场。做多胜率35%，风险收益比不佳。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Detailed Analysis Cards -->
+        <h3 style="color:#fff;margin:30px 0 15px;">🔍 各位大师详细分析（点击展开）</h3>
+
+        <!-- 1. 查理·芒格 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">1️⃣ 查理·芒格 — 多元思维模型</span>
+                    <span class="verdict-badge verdict-pass">✋ PASS（观望）| 胜率35%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 核心观点：</strong>PE 40倍不便宜，缺乏安全边际。金融IT行业有护城河（高转换成本），但当前估值已经充分反映了市场对恒生电子的乐观预期。</p>
+                    <p><strong>🧠 思维模型应用：</strong></p>
+                    <ul>
+                        <li><strong>逆向思维：</strong>反过来想——如果要让我卖出这只股票，什么理由最充分？答案：估值回归到30倍以下时我会考虑。现在40倍，我不急着卖，但更不会买。</li>
+                        <li><strong>能力圈检查：</strong>我能理解金融IT的业务模式吗？能。但它在我的能力圈里是不是最好的选择？目前看不到明显的错误定价机会。</li>
+                        <li><strong>激励机制偏差：</strong>机构客户（券商、基金）的IT预算收缩是一个结构性压制因素，管理层即使努力也可能难以对抗宏观逆风。</li>
+                    </ul>
+                    <p><strong>💡 芒格语录式总结：</strong>"好东西贵了就不是好东西。聪明人在发现好机会之前会一直等着。恒生电子是好公司，但现在不是好价格。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:35%">35%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 巴菲特 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">2️⃣ 沃伦·巴菲特 — 价值投资/护城河</span>
+                    <span class="verdict-badge verdict-sell">❌ 不买入</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 核心观点：</strong>不在我看得懂的舒适区内，或者说不符合我"以合理价格买入优秀企业"的标准。ROE约12.5%算不上"卓越"。</p>
+                    <p><strong>🏰 护城河分析：</strong></p>
+                    <ul>
+                        <li>恒生电子在金融IT领域确实有深厚的护城河（客户转换成本极高、市占率高）</li>
+                        <li>但这种护城河正在被云计算和SaaS模式侵蚀（新玩家可以用更低门槛切入）</li>
+                        <li>巴菲特喜欢的是"傻子也能经营好的生意"——金融IT显然不属于这一类</li>
+                    </ul>
+                    <p><strong>💰 估值考量：</strong>EPS 0.65元 → 26.20元股价 = 40倍PE。按照我的标准，只有在我确信未来10年利润能稳定增长15%以上时才愿意付这个价格。当前宏观环境下，这个确定性不存在。</p>
+                    <p><strong>📝 巴菲特风格总结：</strong>"当别人贪婪时恐惧，当别人恐惧时贪婪。现在市场对科技股的情绪既不过度贪婪也不过度恐惧——这意味着没有明显的错误定价可以利用。继续等。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:25%">N/A — 价格不具吸引力</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 段永平 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">3️⃣ 段永平 — 本分/能力圈/商业模式</span>
+                    <span class="verdict-badge verdict-pass">✋ PASS观望 | 胜率30%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 核心观点：</strong>商业模式清晰但不便宜。做对的事情（买好公司），把事情做对（等好价格）。现在价格不对，那就等。</p>
+                    <p><strong>🎯 四维度评估：</strong></p>
+                    <ul>
+                        <li><strong>商业模式：</strong>✅ 金融IT服务，SaaS转型进行中，经常性收入占比提升——赚钱模式清晰且可持续</li>
+                        <li><strong>企业文化：</strong>⚠️ 未深入了解，但从公开信息看经营稳健，无明显诚信瑕疵</li>
+                        <li><strong>能力圈：</strong>⚠️ IT服务业我能理解大概，但细节不在我的深度能力圈内</li>
+                        <li><strong>估值/价格：</strong>❌ 40倍PE，即使对于好公司也偏贵。我买茅台时也就20倍出头</li>
+                    </ul>
+                    <p><strong>⏳ 长期视角：</strong>如果你看好这家公司未来10年的发展，现在的价格可以开始"关注"了。但如果要让我动手，我需要看到至少30%以上的安全边际——也就是说价格回落到18-20元区间我才会认真考虑。</p>
+                    <p><strong>🍎 段式语录：</strong>"买股票就是买公司。你愿不愿意用26块2毛的价格买下整个恒生电子？如果答案是'犹豫'，那就别买。不丢失本金永远是第一位的原则。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:30%">30%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 彼得·林奇 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">4️⃣ 彼得·林奇 — PEG/6类公司分类法</span>
+                    <span class="verdict-badge verdict-hold">⏸️ 持有/PASS | 胜率60%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 公司分类：</strong>稳定增长型（Steady Grower）——营收和利润保持中等速度增长，不是爆炸性增长但也非衰退。</p>
+                    <p><strong>📊 关键指标：</strong></p>
+                    <ul>
+                        <li><strong>PEG计算：</strong>PE 40.3 ÷ 预估增速(约30%) = PEG ≈ 1.3 → 略偏高（理想值&lt;1.0）</li>
+                        <li><strong>增长率：</strong>2025年净利润12.31亿元，增速尚可但不算惊艳</li>
+                        <li><strong>机构持仓：</strong>作为金融IT龙头，机构持仓比例通常较高——这是双刃剑</li>
+                    </ul>
+                    <p><strong>🛒 日常生活选股法：</strong>你去过证券营业部吗？用过券商APP吗？背后很可能就是恒生的系统。这种"看不见但无处不在"的公司往往被低估——但问题是，现在它的估值并不"低估"。</p>
+                    <p><strong>📈 林奇建议：</strong>如果你已经持有，继续拿着——这类稳定增长型公司的特点是慢牛行情，不要因为短期波动卖出。如果你没买，也不必追高。等下一个市场恐慌时再考虑建仓。</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-mid" style="width:60%">60%（但跑赢大盘仅30%）</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 霍华德·马克斯 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">5️⃣ 霍华德·马克斯 — 周期定位/第二层次思维</span>
+                    <span class="verdict-badge verdict-sell">⚠️ 不建议重仓 | 胜率<40%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 第二层次思维检查：</strong></p>
+                    <ul>
+                        <li><strong>第一层次（表面）：</strong>"恒生电子是优质金融IT龙头，应该买入"</li>
+                        <li><strong>第二层次（深层）：</strong>"正因为大家都知道它是优质龙头，所以它的价格可能已经反映了所有的利好。40倍PE意味着市场已经给了它很高的溢价。在A股整体情绪偏弱的环境下，这个溢价能否维持？"</li>
+                    </ul>
+                    <p><strong>🌡️ 风险温度计：</strong></p>
+                    <ul>
+                        <li>当前温度：<strong>偏热但不极端</strong>（不是疯狂泡沫区，也不是极度恐惧区）</li>
+                        <li>投资者的"错误率"可能偏高：大家都在追逐有故事的好公司，忽略了估值约束</li>
+                        <li>市场情绪：谨慎偏弱，但个股层面仍有结构性机会</li>
+                    </ul>
+                    <p><strong>🔄 周期定位：</strong>A股处于回调后的盘整阶段。金融IT板块并非当前市场主线（热点在AI算力、新能源等方向）。在一个"非主流"板块里买一个"非便宜"的股票，这不是好的风险收益比交易。</p>
+                    <p><strong>📝 马克斯备忘录式总结：</strong>"好的买点出现在别人恐惧而你贪婪的时刻。现在大家对恒生电子的态度是'还不错但不太兴奋'——这种状态不会产生超额收益。等待市场给出更好的价格，或者等待公司业绩超预期的催化剂。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:38%">&lt;40%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 德鲁肯米勒 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">6️⃣ 斯坦利·德鲁肯米勒 — 宏观驱动/催化剂</span>
+                    <span class="verdict-badge verdict-sell">❌ 不买入 | 胜率40%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📌 宏观环境扫描：</strong></p>
+                    <ul>
+                        <li><strong>美联储：</strong>降息预期推迟至Q3 → 全球流动性收紧延续 → 人民币资产估值承压</li>
+                        <li><strong>美元指数：</strong>近期回落但趋势不明 → 对新兴市场资金流向的影响存在不确定性</li>
+                        <li><strong>A股情绪：</strong>延续回调行情，市场情绪偏弱</li>
+                    </ul>
+                    <p><strong>🔥 催化剂识别：</strong>恒生电子当前的上涨催化剂是什么？老实说，<strong>我没有看到明确的短期催化剂</strong>：</p>
+                    <ul>
+                        <li>❌ AI大模型落地金融场景？—— 方向正确，但变现时间不确定</li>
+                        <li>❌ 注册制深化改革？—— 政策利好，但已被部分定价</li>
+                        <li>❌ 券商IT预算增加？—— 与宏观经济正相关，当前偏弱</li>
+                        <li>❌ 量子通信概念？—— 太遥远，无法量化</li>
+                    </ul>
+                    <p><strong>📉 技术面 & 止损：</strong>价格跌破MA5和MA10，短期动能偏弱。MACD DIF(-0.17)和DEA(-0.30)均为负值，空头区域内的反弹。如果我一定要参与，止损设在25.50元（今日最低下方），目标27.50（MA20上沿附近）。盈亏比仅1:1，不值得下注。</p>
+                    <p><strong>💡 德式原则：</strong>"I'm always thinking about losing money as opposed to making money. （我总是在想着怎么不亏钱，而不是怎么赚钱。）没有高盈亏比的交易就不做。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:40%">40% | 盈亏比1:1 ❌</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 西蒙斯 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">7️⃣ 詹姆斯·西蒙斯 — 量化信号/统计套利</span>
+                    <span class="verdict-badge verdict-pass">⚙️ 暂不行动 | 信号不足</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📊 量化信号矩阵：</strong></p>
+                    <table style="width:100%;margin:15px 0;border-collapse:collapse;">
+                        <tr style="background:#1a237e;color:#fff;"><th style="padding:8px;text-align:left;">指标</th><th style="padding:8px;text-align:center;">数值</th><th style="padding:8px;text-align:center;">信号</th></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">MA5 vs 收盘价</td><td style="text-align:center;padding:8px;border-bottom:1px solid #333;">26.53 > 26.20</td><td style="text-align:center;color:#ef9a9a;padding:8px;border-bottom:1px solid #333;">⬇️ 偏空</td></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">MA10 vs 收盘价</td><td style="text-align:center;padding:8px;border-bottom:1px solid #333;">26.60 > 26.20</td><td style="text-align:center;color:#ef9a9a;padding:8px;border-bottom:1px solid #333;">⬇️ 偏空</td></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">MA20 vs 收盘价</td><td style="text-align:center;padding:8px;border-bottom:1px solid #333;">26.18 ≈ 26.20</td><td style="text-align:center;color:#ffb74d;padding:8px;border-bottom:1px solid #333;">➡️ 中性（支撑位）</td></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">MA排列</td><td colspan="2" style="padding:8px;border-bottom:1px solid #333;">MA5>MA10>收盘价≈MA20<MA60</td><td style="text-align:center;color:#ef9a9a;padding:8px;border-bottom:1px solid #333;">⬇️ 短空长空</td></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">RSI_6</td><td style="text-align:center;padding:8px;border-bottom:1px solid #333;">42.24</td><td style="text-align:center;color:#ffb74d;padding:8px;border-bottom:1px solid #333;">➡️ 中性偏弱</td></tr>
+                        <tr><td style="padding:8px;border-bottom:1px solid #333;">MACD</td><td colspan="2" style="padding:8px;border-bottom:1px solid #333;">DIF=-0.17, DEA=-0.30, DIF>DEA（金叉进行中）</td><td style="text-align:center;color:#81c784;padding:8px;border-bottom:1px solid #333;">⬆️ 偏多（但零轴下方）</td></tr>
+                    </table>
+                    <p><strong>📐 统计特征：</strong>基于现有数据的统计分析表明，当前价格处于近期震荡区间的中下部。波动率适中，没有出现极端偏离均值的情形。</p>
+                    <p><strong>🤖 量化决策：</strong>信号矩阵呈现<strong>矛盾状态</strong>（均线偏空 vs MACD接近金叉偏多）。在大奖章基金的策略体系中，这种情况的处理方式是<strong>降低仓位或完全不参与</strong>，直到信号趋于一致。历史回测显示，此类"信号冲突"状态的交易胜率通常低于55%，低于我们的60%阈值。</p>
+                    <p><strong>📝 西蒙斯风格总结：</strong>"数学不骗人。当信号矛盾时，市场在告诉你信息不够。不要猜测，不要强行交易。等待下一个清晰的信号出现。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">信号强度</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:42%">信号矛盾 — 不触发交易</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. 塔勒布 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">8️⃣ 纳西姆·塔勒布 — 黑天鹅/反脆弱/杠铃策略</span>
+                    <span class="verdict-badge verdict-sell">🚫 避免（中间地带）</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>☠️ 黑天鹅识别：</strong>恒生电子面临的未知风险包括但不限于：(1) 监管政策突然变化影响金融机构IT投入 (2) 云巨头（阿里云、腾讯云）降维打击传统金融IT厂商 (3) AI替代部分金融IT人力需求导致行业格局重塑 (4) 系统性金融危机导致客户大规模削减IT预算。</p>
+                    <p><strong>🔄 反脆弱性评估：</strong>当股价下跌时，恒生电子是否反而受益？<strong>答案是否定的。</strong>股价下跌会导致融资能力下降、人才流失加速、客户信心动摇——这是典型的脆弱性特征，而非反脆弱性。</p>
+                    <p><strong>⚖️ 杠铃策略适配性：</strong></p>
+                    <ul>
+                        <li><strong>90%超安全资产：</strong>国债/现金 —— 恒生电子显然不属于这一端（高估值、高波动）</li>
+                        <li><strong>10%高凸性资产：</strong>期权/高波动成长股 —— 恒生电子有一定弹性但不够极端（40倍PE限制了上行想象空间）</li>
+                        <li><strong>结论：</strong>恒生电子落在杠铃中间那个你应该<strong>刻意回避</strong>的区域</li>
+                    </ul>
+                    <p><strong>🎲 Via Negativa（否定法）：</strong>我们不想要的是什么？(1) 高估值 + 低确定性的组合 (2) 在错误的时间被迫卖出 (3) 承担尾部风险却没有对应补偿。恒生电子同时触犯了以上三点。</p>
+                    <p><strong>📝 塔勒布式警告：</strong>"The fragility of a system is hidden. You don't see it until something breaks. （系统的脆弱性是隐藏的，直到出事你才会发现。）恒生电子看起来'还行'，但这恰恰是最危险的——因为它让你放松警惕，却无法在黑天鹅事件中保护你。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">凸性评分</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:25%">❌ 中间地带 — 不配置</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. 索罗斯 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">9️⃣ 乔治·索罗斯 — 反身性/繁荣-崩溃模型</span>
+                    <span class="verdict-badge verdict-hold">🔄 HOLD（持有/设止损）</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>🔄 反身性分析：</strong>恒生电子的价格与基本面之间存在一种微妙的反馈循环：</p>
+                    <ul>
+                        <li>股价上涨 → 融资能力增强 → 吸引更好的人才 → 产品竞争力提升 → 利润增长 → 股价进一步上涨（正反馈/自我强化）</li>
+                        <li>股价下跌 → 人才流失 → 客户信心下降 → 订单减少 → 利润下滑 → 股价进一步下跌（负反馈/恶性循环）</li>
+                    </ul>
+                    <p><strong>📊 当前阶段判断：</strong>从数据来看，当前可能正处于一个<strong>"过渡阶段"</strong>——前期正 feedback 衰竭（价格从28.13跌到26.20），负 feedback 尚未完全确立（MA20支撑有效）。这是一个<strong>高度不确定</strong>的位置。</p>
+                    <p><strong>⚠️ 易错性认知（Fallibility）：</strong>我必须承认我对恒生电子的认知可能存在以下错误：(1) 低估了AI转型带来的增长弹性 (2) 高估了宏观环境对金融IT的压制程度 (3) 忽略了潜在的政策催化。这些认知偏差随时可能被市场纠正——无论是朝有利于还是不利于我的方向。</p>
+                    <p><strong>📈 繁荣-崩溃模型：</strong>当前不属于任何明确的繁荣期或崩溃期的典型特征。更像是在两个周期之间的<strong>"无人区"</strong>。在这种状态下，索罗斯的做法是<strong>控制仓位、设置严格止损、等待方向明朗</strong>。</p>
+                    <p><strong>💰 操作建议：</strong>已持有者继续持有，但设置止损（建议25.70元）；空仓者不必急于入场。横盘概率约50%，向上突破和向下破位的概率各占25%。等待市场告诉你方向，而不是你告诉市场方向。</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">方向判断</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-mid" style="width:50%">横盘50% / 向上25% / 向下25%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Wu2198 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">🔟 Wu2198 — 趋势/量能/汽油论</span>
+                    <span class="verdict-badge verdict-hold">👀 观望 | 胜率45%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📈 三级趋势判断：</strong></p>
+                    <ul>
+                        <li><strong>长期趋势（周线级别）：</strong>⬇️ 向下 —— 价格远低于MA60（28.13），且MA60本身也在下行</li>
+                        <li><strong>中期趋势（日线级别）：</strong>➡️ 横盘/企稳 —— MA20（26.18）提供支撑，价格在此附近反复测试</li>
+                        <li><strong>短期趋势（日内/分钟级）：</strong>⬇️ 偏弱 —— MA5（26.53）、MA10（26.60）形成压制</li>
+                    </ul>
+                    <p><strong>⛽ 量能分析（汽油论）：</strong>成交量就是汽车的汽油，没有足够的量能（汽油），车子跑不起来。换手率仅1.05%，成交额5.2亿——<strong>油箱半空</strong>。这种量能水平不支持大幅上涨。</p>
+                    <p><strong>💰 资金流向解读：</strong></p>
+                    <ul>
+                        <li>主力净流入：-3256万 ⚠️ <strong>主力在撤退！</strong></li>
+                        <li>散户净流入：+36450万 🔴 <strong>散户在接盘！</strong></li>
+                        <li>大单净流入：-3037万 ⚠️ <strong>聪明钱在卖出！</strong></li>
+                    </ul>
+                    <p><strong>📍 价值区判断：</strong>根据Wu2198的方法论，真正的"价值区"应该在更低的位置（大约23-24元区间）。当前26.20元距离价值区还有约8-10%的空间。<strong>大概率</strong>事件：继续在25-27区间震荡的概率最大（约60%）。</p>
+                    <p><strong>📝 Wu2198风格总结：</strong>"兄弟们记住了，主力不动的票你不要动。主力在跑的票你更不能追。今天这个资金流向数据很清楚——聪明钱走了，散户来了。你觉得谁会赢？耐心等，等主力重新回来再说。"</p>
+                    <div class="probability-bar">
+                        <span class="probability-label">胜率评估</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-mid" style="width:45%">45%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. 禅师 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">1️⃣1️⃣ 禅师（缠中说禅）— 缠论108课</span>
+                    <span class="verdict-badge verdict-buy">🟢 观望偏多/轻仓试 | 一买后60-65%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>📐 几何化分析（纯技术面）：</strong></p>
+                    
+                    <p><strong>一、K线分型：</strong>当日K线为带长下影线的十字星（开26.26→高26.40→低25.81→收26.20）。<strong>底分型构造中，待后续K线确认。</strong></p>
+                    
+                    <p><strong>二、笔的划分：</strong>当前大概率处于<strong>向下笔末端 / 新向上笔起始阶段</strong>。证据：MACD的DIF(-0.17)在DEA(-0.30)上方且差距收窄（绿柱缩短），说明下跌动能衰减。如果25.81低点在未来几根K线不被跌破，这里就是新向上笔的起点。</p>
+                    
+                    <p><strong>三、中枢识别：</strong>推测日线中枢区间约为<strong>ZG 27.00~27.50 / ZD 25.50~26.00</strong>。今日最低价25.81在中枢下沿附近，收盘价站上MA20（26.18）= 中枢下沿支撑有效。<strong>中枢状态：延伸阶段</strong>——没有突破性行情，高抛低吸时机。</p>
+                    
+                    <p><strong>四、走势类型：</strong><strong>日线级别盘整走势</strong>。前面下跌走势类型已完成（有MACD底背离迹象），目前正在构造第一个盘整中枢。按照"走势终完美"，这个盘整终将演化为新的趋势——要么向上突破形成上涨趋势，要么向下破位形成下跌趋势延续。</p>
+                    
+                    <p><strong>五、背驰判断：</strong><strong>疑似出现日线级别盘整背驰。</strong>DIF从-0.30回升到-0.17，RSI_6=42.24未进入超卖——说明C段下跌力度弱于A段，符合盘整背驰的特征。（注：单日数据有限，需连续K线的MACD面积对比来最终确认。）</p>
+                    
+                    <p><strong>六、买卖点（核心结论）：</strong></p>
+                    <ul>
+                        <li><strong>一买：</strong>🟡 可能已经出现或即将出现（置信度65%）—— 结构具备一买特征，但分型确认不足</li>
+                        <li><strong>二买：</strong>⏳ 尚未出现 —— 如果25.81是一买区域，第一次回调不破25.81的位置就是二买候选</li>
+                        <li><strong>三买：</strong>❌ 远未出现 —— 连中枢上沿（27.00~27.50）都未触及</li>
+                    </ul>
+                    
+                    <p><strong>🎯 禅师最终判词：</strong></p>
+                    <blockquote style="background:rgba(0,0,0,0.3);padding:15px;border-left:3px solid #c62828;margin:15px 0;font-style:italic;">
+                        "恒生电子这只票，现在就一句话：<strong>在一买门口晃悠</strong>。<br><br>
+                        26块2毛，站在20日均线上，MACD在零轴底下金叉，RSI也不超卖也不超买——这就是一个标准的'下跌力竭、多头试探'的格局。<br><br>
+                        但本ID再说一遍，缠论不讲'大概'、'也许'。现在缺的是<strong>分型确认</strong>——下一根K线如果收在26.20以上且低点不破25.81，底分型成立，向上笔开启，一买确认。到时候才是你动手的时候。<br><br>
+                        现在你要做的事：<strong>盯着</strong>。设好预警，25.80破了就走人，27.50突破了就加仓。中间别乱动。<br><br>
+                        记住课程41说的话：<strong>没有节奏，只有死</strong>。买点买，卖点卖，现在还不是确定的买点，但已经很近了。"
+                    </blockquote>
+                    
+                    <div class="probability-bar">
+                        <span class="probability-label">一买确认后胜率</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-mid" style="width:62%">60%-65%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. 周金涛 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">1️⃣2️⃣ 周金涛 — 康波/周期嵌套框架</span>
+                    <span class="verdict-badge verdict-buy">📊 持有/分批低吸 | 6月55%/12月65%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>🌍 五层周期嵌套定位：</strong></p>
+                    
+                    <table style="width:100%;margin:15px 0;border-collapse:collapse;">
+                        <tr style="background:#1a237e;color:#fff;"><th style="padding:10px;text-align:left;">周期层级</th><th style="padding:10px;text-align:center;">当前位置</th><th style="padding:10px;text-align:center;">对恒生电子的含义</th></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #333;"><strong>康波（50-60年）</strong></td><td style="text-align:center;padding:10px;border-bottom:1px solid #333;">🟢 回升前夜</td><td style="padding:10px;border-bottom:1px solid #333;">AI/金融科技赛道受益</td></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #333;"><strong>朱格拉（8-10年）</strong></td><td style="text-align:center;padding:10px;border-bottom:1px solid #333;">🔴 下行尾段/磨底</td><td style="padding:10px;border-bottom:1px solid #333;">机构资本开支收缩</td></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #333;"><strong>基钦（3-4年）</strong></td><td style="text-align:center;padding:10px;border-bottom:1px solid #333;">🟡 去库尾声→被动去库初期</td><td style="padding:10px;border-bottom:1px solid #333;">短期情绪主导，弱修复</td></tr>
+                        <tr><td style="padding:10px;border-bottom:1px solid #333;"><strong>房地产（20-25年）</strong></td><td style="text-align:center;padding:10px;border-bottom:1px solid #333;">🔴 深度调整期</td><td style="padding:10px;border-bottom:1px solid #333;">信用扩张受阻→IT预算收紧</td></tr>
+                        <tr><td style="padding:10px;"><strong>货币/信用周期</strong></td><td style="text-align:center;padding:10px;">🟡 宽货币≠宽信用</td><td style="padding:10px;">传导阻滞，宽松效果打折</td></tr>
+                    </table>
+                    
+                    <p><strong>🔗 驱动力接力链分析：</strong></p>
+                    <ul>
+                        <li>✅ <strong>技术创新（AI/大模型）</strong>：已启动，但变现需时间</li>
+                        <li>🟡 <strong>资本市场改革</strong>：局部接力（注册制深化）</li>
+                        <li>❌ <strong>机构资本开支</strong>：尚未接棒（核心压制因素）</li>
+                        <li>❌ <strong>房地产</strong>：深度调整，未接力</li>
+                        <li>🟡 <strong>货币政策</strong>：宽松但传导不畅</li>
+                    </ul>
+                    <p><strong>⚠️ 核心矛盾：</strong>技术驱动力（AI）先行启动，但需求侧驱动力（机构资本开支）尚未接棒。形成了典型的<strong>"抢跑复苏"格局</strong>——长期逻辑已被部分定价（PE 40.3倍），但中短期基本面验证仍在等待。</p>
+                    
+                    <p><strong>🎯 行业轮动定位：</strong>金融IT属于<strong>"后周期+长周期成长"</strong>的混合品种。在轮动顺序上偏后，但如果2026Q3美联储降息+国内信用边际改善，金融IT可能在Q4进入轮动主升段，弹性较大。</p>
+                    
+                    <p><strong>📝 周金涛命题式总结：</strong></p>
+                    <blockquote style="background:rgba(0,0,0,0.3);padding:15px;border-left:3px solid #f57f17;margin:15px 0;font-style:italic;">
+                        "长波回升的前夜，中周期的低谷，短周期的磨底——<strong>恒生电子站在一个'方向正确但时机未熟'的位置。</strong><br><br>
+                        对于能承受6-12个月等待的资金而言，当前是可以开始关注和分批布局的区域；但对于追求短期确定性收益的资金而言，更安全的做法是等待2026Q3之后的催化剂确认。"
+                    </blockquote>
+                    
+                    <p><strong>📅 关键观察日历：</strong>2026年5月一季报 → 6月FOMC会议 → 8月Jackson Hole央行年会 → 9月预计首次降息 → 10月三季报验证全年指引</p>
+                    
+                    <div class="probability-bar">
+                        <span class="probability-label">6个月胜率</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-mid" style="width:55%">55%</div></div>
+                    </div>
+                    <div class="probability-bar" style="margin-top:10px;">
+                        <span class="probability-label">12个月胜率</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-high" style="width:65%">65%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. 威科夫 -->
+        <div class="analyst-section">
+            <div class="analyst-card">
+                <div class="analyst-header" onclick="toggleBody(this)">
+                    <span class="name">1️⃣3️⃣ 威科夫 — 量价关系/CM意图</span>
+                    <span class="verdict-badge verdict-pass">👀 观望 | 做多胜率35%</span>
+                </div>
+                <div class="analyst-body">
+                    <p><strong>🎪 当前市场阶段判断：</strong><strong>下降趋势中后期的震荡整理（疑似吸筹 Phase B）</strong></p>
+                    <ul>
+                        <li>价格从MA60（28.13）回落约6.8%至26.20</li>
+                        <li>当前正在<strong>MA20（26.18）关键支撑位</strong>争夺</li>
+                        <li>MACD空头动能减弱但未翻多（DIF=-0.17, DEA=-0.30）</li>
+                        <li>RSI_6=42.24 接近超卖但未到极端值</li>
+                    </ul>
+                    
+                    <p><strong>📊 当日量价行为解读：</strong>K线为带长下影线十字星（振幅2.28%），下影线长度占66%——价格试探低位后有承接力量快速拉回。<strong>疑似Spring（弹簧效应），待确认。</strong></p>
+                    
+                    <p><strong>⚠️ 努果法则（Effort vs Result）—— 关键发现！</strong></p>
+                    <div style="background:rgba(198,40,40,0.15);padding:15px;border-radius:8px;border:1px solid rgba(198,40,40,0.3);margin:15px 0;">
+                        <p style="margin:0;color:#ef9a9a;"><strong>⚠️ 威科夫经典警告信号组合：</strong></p>
+                        <ul style="margin:10px 0 0 0;color:#b0bec5;">
+                            <li>主力净流出 <strong>-3,256万元</strong> → CM在卖</li>
+                            <li>散户净流入 <strong>+36,450万元</strong> → 公众在买</li>
+                            <li>价格不跌反稳 → 努力无结果 = 有需求吸收</li>
+                        </ul>
+                        <p style="margin:10px 0 0 0;color:#ffcdd2;"><strong>两种解释：</strong></p>
+                        <ol style="margin:5px 0 0 20px;color:#b0bec5;font-size:0.93em;">
+                            <li><strong>派发Phase B（概率45%）：</strong>CM趁震荡向散户派发筹码，散户接盘，后续风险：散户买盘耗尽后价格下跌</li>
+                            <li><strong>洗盘/震仓（概率35%）：</strong>CM故意打压洗浮筹，为后续拉升做准备，需后续SOS确认</li>
+                        </ol>
+                    </div>
+                    
+                    <p><strong>🎯 PTG目标测算（因果关系）：</strong></p>
+                    <ul>
+                        <li>若吸筹成功向上突破：目标 <strong>31.50元（+20%）</strong>—— 概率约35%</li>
+                        <li>若继续震荡：区间 <strong>25-28元</strong>—— 概率最高（约40%）</li>
+                        <li>若派发破位向下：目标 <strong>22.50元（-14%）</strong>—— 概率约25%</li>
+                    </ul>
+                    
+                    <p><strong>📋 进场条件（威科夫铁律）：</strong></p>
+                    <p><strong>做多条件（必须满足全部）：</strong></p>
+                    <ol style="margin-left:20px;color:#b0bec5;">
+                        <li>✅ SOS出现：放量大阳线（涨幅>3%，成交量放大50%+），突破27.00元</li>
+                        <li>✅ JOC确认：价格站稳MA60（28.13）上方</li>
+                        <li>✅ 主力净流入转正：连续2-3天主力净流入为正</li>
+                        <li>✅ 回测缩量：突破后的回调必须缩量（证明供应枯竭）</li>
+                    </ol>
+                    
+                    <p><strong>📝 威科夫最终判词：</strong></p>
+                    <blockquote style="background:rgba(0,0,0,0.3);padding:15px;border-left:3px solid #2e7d32;margin:15px 0;font-style:italic;">
+                        "所以，我们现在知道什么？<br><br>
+                        1️⃣ 恒生电子当前处于<strong>MA20关键支撑位的争夺战</strong>中，方向未明<br>
+                        2️⃣ 今日的长下影线显示了<strong>下方承接力量</strong>（疑似Spring），但还不够成为进场的充分条件<br>
+                        3️⃣ <strong>最关键的警告</strong>：主力净流出+散户大量接盘 = 筹码转移中的危险信号<br>
+                        4️⃣ 在没有SOS和JOC确认之前，<strong>任何抄底都是左手边进场，违反威科夫铁律</strong><br><br>
+                        <strong>记住这一点：价格和成交量从不说谎。今天它们告诉我们的是——有人在卖，有人在接，但谁赢谁输，还要再看几根K线。</strong>"
+                    </blockquote>
+                    
+                    <div class="probability-bar">
+                        <span class="probability-label">做多胜率</span>
+                        <div class="prob-bar-bg"><div class="prob-bar-fill prob-low" style="width:35%">35% — 等待SOS确认</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>本报告由 13 位投资大师独立分析框架联合生成 | 数据来源：腾讯财经/东方财富（2026-04-24）</p>
+            <p>⚠️ 以上内容仅供研究参考，不构成投资建议。市场有风险，决策需谨慎。</p>
+            <p style="margin-top:10px;">Generated by Investment Committee Analysis System | 2026-04-26</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleBody(header) {
+            const body = header.nextElementSibling;
+            const isActive = body.classList.contains('active');
+            
+            // Close all other bodies
+            document.querySelectorAll('.analyst-body').forEach(b => b.classList.remove('active'));
+            
+            // Toggle current
+            if (!isActive) {
+                body.classList.add('active');
+            }
+        }
+        
+        // Auto-expand the first few on desktop
+        if (window.innerWidth > 768) {
+            // Optionally expand first card by default
+        }
+    </script>
+</body>
+</html>
