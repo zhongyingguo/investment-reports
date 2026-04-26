@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资委员会 · 荐股报告 2026-04-26</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft Yahei", sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+  
+  header { background: linear-gradient(135deg, #1a237e 0%, #0d1117 100%); border-bottom: 1px solid #30363d; padding: 32px 40px; }
+  header h1 { font-size: 26px; color: #bb86fc; font-weight: 700; }
+  header .subtitle { color: #8b949e; margin-top: 6px; font-size: 14px; }
+  header .meta { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  header .meta span { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 6px 14px; font-size: 13px; color: #8b949e; }
+  header .meta span b { color: #bb86fc; }
+  
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 40px; }
+  
+  .verdict-banner { background: linear-gradient(135deg, #1a1a3a 0%, #0d1117 100%); border: 1px solid #bb86fc; border-radius: 12px; padding: 28px 32px; margin-bottom: 32px; text-align: center; }
+  .verdict-banner .label { font-size: 13px; color: #bb86fc; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  .verdict-banner .stock-name { font-size: 36px; font-weight: 800; color: #bb86fc; margin-bottom: 4px; }
+  .verdict-banner .stock-code { font-size: 18px; color: #8b949e; margin-bottom: 16px; }
+  .verdict-banner .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .verdict-banner .stat { text-align: center; }
+  .verdict-banner .stat .val { font-size: 28px; font-weight: 700; color: #bb86fc; }
+  .verdict-banner .stat .lbl { font-size: 12px; color: #8b949e; margin-top: 2px; }
+  
+  .section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .section-title { font-size: 16px; font-weight: 600; color: #bb86fc; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 20px; }
+  
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-box { background: #0d1117; border-radius: 8px; padding: 16px; }
+  .chart-box h3 { font-size: 13px; color: #8b949e; margin-bottom: 12px; text-align: center; }
+  
+  .vote-table { width: 100%; border-collapse: collapse; }
+  .vote-table th { background: #21262d; color: #8b949e; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; padding: 10px 16px; text-align: left; }
+  .vote-table td { padding: 12px 16px; border-bottom: 1px solid #21262d; font-size: 14px; }
+  .vote-table tr:last-child td { border-bottom: none; }
+  .vote-table tr:hover { background: #1c2128; }
+  
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .badge-vote { background: #1a1a3a; color: #bb86fc; border: 1px solid #bb86fc; }
+  .badge-expert { background: #1a237e; color: #82b1ff; border: 1px solid #82b1ff; }
+  .badge-rate { background: #2d1050; color: #bb86fc; border: 1px solid #bb86fc; }
+  
+  .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .member-card { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 18px; transition: border-color 0.2s; }
+  .member-card:hover { border-color: #bb86fc; }
+  .member-card .name { font-size: 15px; font-weight: 600; color: #e6edf3; margin-bottom: 2px; }
+  .member-card .pick { font-size: 13px; color: #e6edf3; margin-bottom: 4px; }
+  .member-card .reason { font-size: 12px; color: #8b949e; line-height: 1.5; margin-top: 8px; }
+  
+  .footer { text-align: center; padding: 24px; color: #484f58; font-size: 12px; border-top: 1px solid #21262d; margin-top: 32px; }
+  
+  @media (max-width: 768px) {
+    header { padding: 20px; }
+    header h1 { font-size: 20px; }
+    .container { padding: 20px; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .verdict-banner .stock-name { font-size: 28px; }
+    .verdict-banner .stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗳️ 投资委员会 · 荐股报告</h1>
+  <div class="subtitle">Investment Committee — Stock Picks Report</div>
+  <div class="meta">
+    <span>📅 投票日期：<b>2026-04-26</b></span>
+    <span>👥 参会委员：<b>13 位</b></span>
+    <span>📈 股票池：<b>13 只</b></span>
+    <span>🏆 获胜标的：<b>长电科技 600584</b></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 裁决结果 -->
+  <div class="verdict-banner">
+    <div class="label">🏆 委员会最终推荐</div>
+    <div class="stock-name">长电科技</div>
+    <div class="stock-code">A股 · 600584</div>
+    <div class="stats">
+      <div class="stat">
+        <div class="val">11 票</div>
+        <div class="lbl">得票数 / 11 位有效委员</div>
+      </div>
+      <div class="stat">
+        <div class="val">100%</div>
+        <div class="lbl">得票率</div>
+      </div>
+      <div class="stat">
+        <div class="val">8.2 / 10</div>
+        <div class="lbl">综合评分</div>
+      </div>
+      <div class="stat">
+        <div class="val">🏆🏆🏆</div>
+        <div class="lbl">强烈推荐</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 投票结果图表 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📊</span> 投票结果统计</div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <h3>各标的得票数</h3>
+        <canvas id="voteChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>投票分布（饼图）</h3>
+        <canvas id="votePieChart"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 投票明细表 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📋</span> 投票明细表</div>
+    <table class="vote-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>股票名称</th>
+          <th>代码</th>
+          <th>得票数</th>
+          <th>推荐委员</th>
+          <th>目标价区间</th>
+          <th>预计涨幅</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#1a1a3a20">
+          <td><span class="badge badge-vote">🏆 1</span></td>
+          <td><b style="color:#bb86fc">长电科技</b></td>
+          <td>600584</td>
+          <td><b style="color:#bb86fc">11 票</b></td>
+          <td>芒格、巴菲特、林奇、段永平、马克斯、西蒙斯、塔勒布、索罗斯、Wu2198、德鲁肯米勒、周金涛</td>
+          <td>55.0 - 65.0 元</td>
+          <td><b style="color:#bb86fc">30% - 60%</b></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-vote">2</span></td>
+          <td>华兴源创</td>
+          <td>688001</td>
+          <td><b style="color:#bb86fc">5 票</b></td>
+          <td>西蒙斯、索罗斯、Wu2198、德鲁肯米勒、周金涛</td>
+          <td>65.0 - 85.0 元</td>
+          <td><b style="color:#bb86fc">25% - 60%</b></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-vote">3</span></td>
+          <td>清溢光电</td>
+          <td>688138</td>
+          <td><b style="color:#bb86fc">4 票</b></td>
+          <td>芒格、巴菲特、林奇、索罗斯</td>
+          <td>40.0 - 50.0 元</td>
+          <td><b style="color:#bb86fc">30% - 50%</b></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-vote">4</span></td>
+          <td>通富微电</td>
+          <td>002156</td>
+          <td><b style="color:#e6edf3">2 票</b></td>
+          <td>林奇、西蒙斯</td>
+          <td>60.0 - 75.0 元</td>
+          <td><b style="color:#e6edf3">20% - 40%</b></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-vote">5</span></td>
+          <td>路维光电</td>
+          <td>688401</td>
+          <td><b style="color:#e6edf3">2 票</b></td>
+          <td>西蒙斯、周金涛</td>
+          <td>80.0 - 95.0 元</td>
+          <td><b style="color:#e6edf3">18% - 35%</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- 委员推荐明细 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">👥</span> 委员推荐明细</div>
+    <div class="member-grid">
+       
+      <div class="member-card">
+        <div class="name">芒格</div>
+        <div class="pick"><b>推荐：</b>长电科技、华天科技、清溢光电</div>
+        <div class="reason">封装测试是"粮仓"，生意模式易懂。清溢光电是光掩膜龙头，但需要确认护城河。估值过高，需要安全边际。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">巴菲特</div>
+        <div class="pick"><b>推荐：</b>长电科技、清溢光电</div>
+        <div class="reason">3D封装龙头，"卖铲子的人"，受益AI推理趋势。清溢光电有客户粘性，光掩膜是刚需。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">林奇</div>
+        <div class="pick"><b>推荐：</b>长电科技、清溢光电、通富微电</div>
+        <div class="reason">封测龙头，PEG合理，市场开始认可。清溢光电是"无聊但赚钱"的生意。通富微电在高端封测有优势。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">段永平</div>
+        <div class="pick"><b>推荐：</b>长电科技（勉强）</div>
+        <div class="reason">不懂半导体封装，但长电的相对估值最低。不符合"本分"原则，不建议重仓。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">马克斯</div>
+        <div class="pick"><b>推荐：</b>长电科技、彩虹股份</div>
+        <div class="reason">长电估值最合理，周期向上。彩虹股份市净率1.33，处于悲观区间，但需要耐心。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">西蒙斯</div>
+        <div class="pick"><b>推荐：</b>华兴源创、通富微电、路维光电</div>
+        <div class="reason">华兴源创强势动量（+9.72%），通富微电温和动量，路维光电初步动量形成。但数据不完整，可信度受限。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">塔勒布</div>
+        <div class="pick"><b>推荐：</b>沃格光电、长电科技、精测电子</div>
+        <div class="reason">长电是"火焰"候选（反脆弱），沃格光电是凸性交易（小仓位博取不对称回报）。精测电子是"凹性"业务，谨慎。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">索罗斯</div>
+        <div class="pick"><b>推荐：</b>华兴源创、长电科技、清溢光电</div>
+        <div class="reason">反身性循环启动：AI芯片→封装瓶颈→认知转向→资金流入。华兴源创是检测设备龙头，正处繁荣初期。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">Wu2198</div>
+        <div class="pick"><b>推荐：</b>华兴源创、长电科技、彩虹股份</div>
+        <div class="reason">华兴源创量能配合（+9.72%），长电科技温和上涨（主力吸筹？）。彩虹股份是低价黑马候选，等放量启动。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">德鲁肯米勒</div>
+        <div class="pick"><b>推荐：</b>伟测科技、长电科技、沃格光电</div>
+        <div class="reason">伟测科技是"成长爆发性"标的，长电是"确定性收益"标的，沃格光电是"不对称性赌注"（小仓位）。</div>
+      </div>
+       
+      <div class="member-card">
+        <div class="name">周金涛</div>
+        <div class="pick"><b>推荐：</b>华兴源创、长电科技、路维光电</div>
+        <div class="reason">康波周期萧条期末段，AI算力开启新一轮朱格拉周期。检测设备是先行指标，封装是中游受益环节。</div>
+      </div>
+       
+    </div>
+  </div>
+  
+  <!-- 投资逻辑链 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🔗</span> 投资逻辑链</div>
+    <div style="color: #8b949e; line-height: 1.8; font-size: 14px;">
+      <p style="margin-bottom: 12px;">📊 <b style="color: #bb86fc;">AI推理需求</b> → 推动CPU/GPU向低延迟、高性能方向重新设计</p>
+      <p style="margin-bottom: 12px; padding-left: 24px;">↓</p>
+      <p style="margin-bottom: 12px;">⚡️ <b style="color: #bb86fc;">芯片功耗大幅上升</b> → 传统封装散热不足，需要新的材料与架构</p>
+      <p style="margin-bottom: 12px; padding-left: 24px;">↓</p>
+      <p style="margin-bottom: 12px;">🔷 <b style="color: #bb86fc;">玻璃基板成为主流</b> → 替代有机基板，更好的散热与电气性能（沃格光电、彩虹股份）</p>
+      <p style="margin-bottom: 12px; padding-left: 24px;">↓</p>
+      <p style="margin-bottom: 12px;">📦 <b style="color: #bb86fc;">3D堆叠封装成为主流</b> → Chiplet、CoWoS等技术普及，封装变得极度复杂（长电科技、通富微电）</p>
+      <p style="margin-bottom: 12px; padding-left: 24px;">↓</p>
+      <p style="margin-bottom: 12px;">🔬 <b style="color: #bb86fc;">检测需求与难度暴增</b> → 3D堆叠的层数、对位精度要求极高，检测设备不可或缺（华兴源创、精测电子）</p>
+      <p style="margin-bottom: 12px; padding-left: 24px;">↓</p>
+      <p style="margin-bottom: 12px;">🔲 <b style="color: #bb86fc;">光掩膜需求激增</b> → 每一轮技术节点进步都需要全新光掩膜，AI芯片复杂度提升=光掩膜量价齐升（清溢光电、路维光电）</p>
+    </div>
+  </div>
+  
+  <!-- 风险提示 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚠️</span> 风险提示</div>
+    <div style="color: #8b949e; line-height: 1.8; font-size: 14px;">
+      <p style="margin-bottom: 12px;">1. <b style="color: #e6edf3;">地缘政治风险</b>：中美科技博弈可能导致供应链冲击，长电科技等封测企业可能受波及</p>
+      <p style="margin-bottom: 12px;">2. <b style="color: #e6edf3;">技术迭代风险</b>：封装路线可能突变（如从CoWoS转向其他方案），导致当前投资付诸东流</p>
+      <p style="margin-bottom: 12px;">3. <b style="color: #e6edf3;">周期下行风险</b>：半导体是周期性行业，如果全球进入衰退，资本开支下滑将冲击整个产业链</p>
+      <p style="margin-bottom: 12px;">4. <b style="color: #e6edf3;">估值风险</b>：大多数股票市盈率50倍+，已经反映了乐观预期，如果业绩不及预期，估值压缩将带来双杀</p>
+      <p style="margin-bottom: 12px;">5. <b style="color: #e6edf3;">逻辑链断裂风险</b>：如果AI推理需求不及预期，整个"AI→封装→检测→光掩膜"逻辑链都将受到冲击</p>
+    </div>
+  </div>
+  
+</div>
+
+<div class="footer">
+  <p>⚠️ 本报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。</p>
+  <p style="margin-top: 8px;">Generated by 投资委员会 · 2026-04-26</p>
+</div>
+
+<script>
+// 投票结果柱状图
+const ctx = document.getElementById('voteChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['长电科技', '华兴源创', '清溢光电', '通富微电', '路维光电', '沃格光电', '彩虹股份', '伟测科技', '精测电子', '华天科技'],
+    datasets: [{
+      label: '得票数',
+      data: [11, 5, 4, 2, 2, 2, 2, 1, 1, 1],
+      backgroundColor: [
+        'rgba(187, 134, 252, 0.8)',
+        'rgba(129, 177, 255, 0.8)',
+        'rgba(129, 177, 255, 0.8)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.3)',
+        'rgba(129, 177, 255, 0.3)',
+        'rgba(129, 177, 255, 0.3)'
+      ],
+      borderColor: [
+        'rgba(187, 134, 252, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return context.parset + ' 票';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#8b949e' },
+        grid: { color: '#21262d' }
+      },
+      x: {
+        ticks: { color: '#8b949e', maxRotation: 45 },
+        grid: { color: '#21262d' }
+      }
+    }
+  }
+});
+
+// 投票分布饼图
+const ctx2 = document.getElementById('votePieChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'pie',
+  data: {
+    labels: ['长电科技 (11票)', '华兴源创 (5票)', '清溢光电 (4票)', '通富微电 (2票)', '路维光电 (2票)', '其他 (7票)'],
+    datasets: [{
+      data: [11, 5, 4, 2, 2, 7],
+      backgroundColor: [
+        'rgba(187, 134, 252, 0.8)',
+        'rgba(129, 177, 255, 0.8)',
+        'rgba(129, 177, 255, 0.8)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.5)',
+        'rgba(129, 177, 255, 0.3)'
+      ],
+      borderColor: [
+        'rgba(187, 134, 252, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)',
+        'rgba(129, 177, 255, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { color: '#8b949e', padding: 12 }
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
