@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投资委员会荐股报告 - 2026-04-26</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%); color: #e0e0ff; min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.05); border-radius: 20px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.1); }
+        .header h1 { font-size: 2.2em; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        .header .date { color: #8892b0; font-size: 1.1em; }
+        .stock-pool { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .stock-pool h2 { color: #667eea; margin-bottom: 15px; font-size: 1.4em; }
+        .stock-pool ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stock-pool li { padding: 10px 15px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 0.95em; }
+        .results { margin-bottom: 25px; }
+        .result-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .result-card h3 { color: #667eea; margin-bottom: 15px; font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .badge-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .badge-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .badge-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: #1a1a2e; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
+        .info-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; }
+        .info-label { color: #8892b0; font-size: 0.85em; margin-bottom: 5px; }
+        .info-value { font-size: 1.1em; font-weight: 600; }
+        .members { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .members h4 { color: #8892b0; margin-bottom: 10px; font-size: 0.9em; }
+        .member-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .member-tag { padding: 5px 12px; background: rgba(102,126,234,0.2); border-radius: 15px; font-size: 0.85em; border: 1px solid rgba(102,126,234,0.3); }
+        .summary { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .summary h2 { color: #667eea; margin-bottom: 15px; font-size: 1.4em; }
+        .vote-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .vote-table th { background: rgba(102,126,234,0.2); padding: 12px; text-align: left; font-size: 0.9em; color: #8892b0; }
+        .vote-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .vote-bar { height: 20px; background: rgba(102,126,234,0.3); border-radius: 10px; overflow: hidden; }
+        .vote-fill { height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; color: white; font-weight: bold; padding: 0 8px; }
+        .footer { text-align: center; padding: 30px; color: #8892b0; font-size: 0.85em; }
+        .note { background: rgba(255,193,7,0.1); border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 0.9em; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ 投资委员会荐股报告</h1>
+            <p class="date">2026年04月26日（周日）</p>
+            <p style="margin-top:10px; color:#8892b0; font-size:0.9em;">基于AI推理→低延迟CPU→芯片功耗→玻璃基板→3D堆叠→检测需求→光掩膜需求逻辑链条</p>
+        </div>
+
+        <div class="stock-pool">
+            <h2>📊 股票池（10只）</h2>
+            <ul>
+                <li>寒武纪（688256）- AI芯片龙头</li>
+                <li>长电科技（600584）- 先进封装龙头</li>
+                <li>通富微电（002156）- 先进封装，绑定AMD</li>
+                <li>甬矽电子（688362）- 高端定制化封测</li>
+                <li>晶方科技（603005）- 玻璃基板/先进封装</li>
+                <li>路维光电（688401）- 光掩膜龙头</li>
+                <li>清溢光电（688138）- 掩膜版龙头</li>
+                <li>精测电子（300567）- 半导体检测设备龙头</li>
+                <li>芯原股份（688521）- Chiplet设计服务</li>
+                <li>深南电路（002916）- 封装基板</li>
+            </ul>
+        </div>
+
+        <div class="results">
+            <div class="result-card">
+                <h3><span class="badge badge-1">🥇 第1名</span> 长电科技（600584）</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">得票数</div>
+                        <div class="info-value">9票 / 12位有效委员</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">预计涨幅（3-6个月）</div>
+                        <div class="info-value">20% - 40%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">胜率范围</div>
+                        <div class="info-value">60% - 75%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">平均胜率</div>
+                        <div class="info-value" style="color:#4facfe;">约 68%</div>
+                    </div>
+                </div>
+                <div class="members">
+                    <h4>推荐委员（9位）</h4>
+                    <div class="member-tags">
+                        <span class="member-tag">芒格</span>
+                        <span class="member-tag">巴菲特</span>
+                        <span class="member-tag">林奇</span>
+                        <span class="member-tag">马克斯</span>
+                        <span class="member-tag">德鲁肯米勒</span>
+                        <span class="member-tag">塔勒布</span>
+                        <span class="member-tag">索罗斯</span>
+                        <span class="member-tag">Wu2198</span>
+                        <span class="member-tag">周金涛</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3><span class="badge badge-2">🥈 第2名</span> 寒武纪（688256）</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">得票数</div>
+                        <div class="info-value">6票 / 12位有效委员</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">预计涨幅（3-6个月）</div>
+                        <div class="info-value">35% - 65%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">胜率范围</div>
+                        <div class="info-value">55% - 65%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">平均胜率</div>
+                        <div class="info-value" style="color:#4facfe;">约 60%</div>
+                    </div>
+                </div>
+                <div class="members">
+                    <h4>推荐委员（6位）</h4>
+                    <div class="member-tags">
+                        <span class="member-tag">林奇</span>
+                        <span class="member-tag">德鲁肯米勒</span>
+                        <span class="member-tag">塔勒布</span>
+                        <span class="member-tag">索罗斯</span>
+                        <span class="member-tag">Wu2198</span>
+                        <span class="member-tag">周金涛</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3><span class="badge badge-3">🥉 第3名</span> 精测电子（300567）</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">得票数</div>
+                        <div class="info-value">5票 / 12位有效委员</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">预计涨幅（3-6个月）</div>
+                        <div class="info-value">25% - 50%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">胜率范围</div>
+                        <div class="info-value">60% - 70%</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">平均胜率</div>
+                        <div class="info-value" style="color:#4facfe;">约 65%</div>
+                    </div>
+                </div>
+                <div class="members">
+                    <h4>推荐委员（5位）</h4>
+                    <div class="member-tags">
+                        <span class="member-tag">芒格</span>
+                        <span class="member-tag">巴菲特</span>
+                        <span class="member-tag">马克斯</span>
+                        <span class="member-tag">德鲁肯米勒</span>
+                        <span class="member-tag">周金涛</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h2>📊 得票数统计</h2>
+            <table class="vote-table">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>股票名称</th>
+                        <th>代码</th>
+                        <th>得票数</th>
+                        <th>可视化</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>🥇 1</strong></td>
+                        <td>长电科技</td>
+                        <td>600584</td>
+                        <td>9票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:90%;">9/12</div></div></td>
+                    </tr>
+                    <tr>
+                        <td><strong>🥈 2</strong></td>
+                        <td>寒武纪</td>
+                        <td>688256</td>
+                        <td>6票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:60%;">6/12</div></div></td>
+                    </tr>
+                    <tr>
+                        <td><strong>🥉 3</strong></td>
+                        <td>精测电子</td>
+                        <td>300567</td>
+                        <td>5票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:50%;">5/12</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>芯原股份</td>
+                        <td>688521</td>
+                        <td>3票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:30%;">3/12</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>深南电路</td>
+                        <td>002916</td>
+                        <td>2票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:20%;">2/12</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>通富微电</td>
+                        <td>002156</td>
+                        <td>1票</td>
+                        <td><div class="vote-bar"><div class="vote-fill" style="width:10%;">1/12</div></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <strong>⚠️ 重要说明：</strong><br>
+            1. 本报告由13位投资大师（模拟）独立分析后汇总生成，仅供参考，不构成投资建议。<br>
+            2. 段永平委员因子代理人格固化问题未能完成分析；西蒙斯、禅师、威科夫委员要求提供量化/K线数据方可分析。<br>
+            3. A股当前休市（周日），所有数据基于最近交易日（2026-04-24）。下一交易日数据可能变化。<br>
+            4. 投资有风险，决策需谨慎。建议结合实时行情和个人风险承受能力做出决策。
+        </div>
+
+        <div class="footer">
+            <p>生成时间：2026-04-26 14:35</p>
+            <p>投资委员会 • 13位委员独立分析</p>
+        </div>
+    </div>
+</body>
+</html>
