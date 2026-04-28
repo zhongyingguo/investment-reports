@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资委员会裁决报告 — 腾讯控股(00700.HK)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif; background: #0a0e17; color: #e0e6ed; line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+
+  /* Header */
+  .header { text-align: center; padding: 40px 0 30px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .header .badge { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 4px 16px; border-radius: 20px; font-size: 12px; letter-spacing: 1px; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; color: #fff; margin-bottom: 6px; }
+  .header .subtitle { color: #8892a4; font-size: 14px; }
+
+  /* Verdict Card */
+  .verdict-card { background: linear-gradient(135deg, #1a2332 0%, #0f1923 100%); border: 1px solid rgba(102,126,234,0.3); border-radius: 16px; padding: 30px; margin: 24px 0; text-align: center; }
+  .verdict-card .verdict-label { font-size: 14px; color: #8892a4; margin-bottom: 8px; }
+  .verdict-card .verdict-value { font-size: 42px; font-weight: 800; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+  .verdict-card .verdict-sub { color: #8892a4; font-size: 14px; }
+  .verdict-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .verdict-stat { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 14px; }
+  .verdict-stat .stat-label { font-size: 12px; color: #8892a4; }
+  .verdict-stat .stat-value { font-size: 22px; font-weight: 700; color: #fff; margin-top: 4px; }
+
+  /* Info Card */
+  .info-card { background: #1a2332; border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .info-card h2 { font-size: 18px; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .info-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .info-item .label { color: #8892a4; font-size: 13px; }
+  .info-item .value { color: #e0e6ed; font-size: 13px; font-weight: 600; }
+  .info-item .value.red { color: #ff4757; }
+  .info-item .value.green { color: #2ed573; }
+
+  /* Faction Section */
+  .faction { margin: 24px 0; }
+  .faction-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid rgba(255,255,255,0.06); }
+  .faction-icon { font-size: 24px; }
+  .faction-title { font-size: 18px; font-weight: 700; color: #fff; }
+
+  /* Member Card */
+  .member-card { background: #151d2b; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+  .member-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .member-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .member-score { background: rgba(79,172,254,0.15); color: #4facfe; padding: 3px 12px; border-radius: 16px; font-size: 14px; font-weight: 700; }
+  .member-judgment { color: #c0ccda; font-size: 14px; margin-bottom: 8px; }
+  .member-risk { color: #ff6b81; font-size: 13px; margin-bottom: 4px; }
+  .member-detail { color: #8892a4; font-size: 13px; }
+  .member-allocation { display: inline-block; background: rgba(46,213,115,0.12); color: #2ed573; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-top: 6px; }
+
+  /* Debate Section */
+  .debate-section { margin: 24px 0; }
+  .debate-card { background: #1a1a2e; border-left: 3px solid #764ba2; border-radius: 0 12px 12px 0; padding: 18px; margin-bottom: 12px; }
+  .debate-label { font-size: 12px; color: #764ba2; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .debate-text { color: #c0ccda; font-size: 14px; }
+
+  /* Vote Table */
+  .vote-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .vote-table th { background: rgba(102,126,234,0.12); color: #a0aec0; font-size: 12px; padding: 10px 8px; text-align: left; font-weight: 600; }
+  .vote-table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+  .vote-table tr:hover { background: rgba(255,255,255,0.02); }
+  .allocation-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.06); position: relative; }
+  .allocation-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #4facfe, #00f2fe); }
+
+  /* Action Guide */
+  .action-guide { background: linear-gradient(135deg, #1a2332 0%, #1e2a3a 100%); border: 1px solid rgba(46,213,115,0.2); border-radius: 14px; padding: 24px; margin: 24px 0; }
+  .action-guide h2 { color: #2ed573; font-size: 18px; margin-bottom: 16px; }
+  .action-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; }
+  .action-row .action-label { color: #8892a4; }
+  .action-row .action-value { color: #fff; font-weight: 600; }
+  .action-row .action-value.stop { color: #ff4757; }
+  .action-row .action-value.buy { color: #2ed573; }
+
+  /* Veto Section */
+  .veto-section { margin: 16px 0; }
+  .veto-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; margin-bottom: 6px; border-radius: 8px; font-size: 13px; }
+  .veto-pass { background: rgba(46,213,115,0.08); color: #2ed573; }
+  .veto-trigger { background: rgba(255,165,2,0.08); color: #ffa502; }
+  .veto-hard { background: rgba(255,71,87,0.08); color: #ff4757; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 30px 0; color: #4a5568; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 30px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .verdict-stats { grid-template-columns: 1fr; }
+    .header h1 { font-size: 22px; }
+    .verdict-card .verdict-value { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">投资委员会 v2.1 · 13位委员</div>
+    <h1>腾讯控股 (00700.HK)</h1>
+    <div class="subtitle">委员会裁决报告 · 数据日期 2026-04-28</div>
+  </div>
+
+  <!-- Verdict Card -->
+  <div class="verdict-card">
+    <div class="verdict-label">委员会裁决</div>
+    <div class="verdict-value">保守买入</div>
+    <div class="verdict-sub">建议仓位 5-8% · 投入比例 50.4%</div>
+    <div class="verdict-stats">
+      <div class="verdict-stat">
+        <div class="stat-label">平均评分</div>
+        <div class="stat-value">6.0/10</div>
+      </div>
+      <div class="verdict-stat">
+        <div class="stat-label">资金分配</div>
+        <div class="stat-value">655/1300</div>
+      </div>
+      <div class="verdict-stat">
+        <div class="stat-label">收盘价</div>
+        <div class="stat-value">HK$473.80</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stock Info -->
+  <div class="info-card">
+    <h2>📊 基础行情</h2>
+    <div class="info-grid">
+      <div class="info-item"><span class="label">收盘价</span><span class="value red">HK$473.80 (-1.00%)</span></div>
+      <div class="info-item"><span class="label">PE (TTM)</span><span class="value">17.37</span></div>
+      <div class="info-item"><span class="label">总市值</span><span class="value">HK$4.32万亿</span></div>
+      <div class="info-item"><span class="label">成交额</span><span class="value">HK$122.6亿</span></div>
+      <div class="info-item"><span class="label">52周高点</span><span class="value">~566 (-16.3%)</span></div>
+      <div class="info-item"><span class="label">恒生科技</span><span class="value red">4,827 (-2.28%)</span></div>
+    </div>
+  </div>
+
+  <!-- Financials -->
+  <div class="info-card">
+    <h2>💰 财务数据（2025年报）</h2>
+    <div class="info-grid">
+      <div class="info-item"><span class="label">营收</span><span class="value">HK$8,323亿 (+13.9%)</span></div>
+      <div class="info-item"><span class="label">净利润</span><span class="value">HK$2,544亿 (+19.9%)</span></div>
+      <div class="info-item"><span class="label">毛利率</span><span class="value green">56.21%</span></div>
+      <div class="info-item"><span class="label">ROE</span><span class="value green">21.38%</span></div>
+      <div class="info-item"><span class="label">EPS</span><span class="value">HK$27.40 (+21.2%)</span></div>
+      <div class="info-item"><span class="label">每股股息</span><span class="value green">HK$5.30 (+17.8%)</span></div>
+      <div class="info-item"><span class="label">经营现金流/股</span><span class="value">HK$91.26</span></div>
+      <div class="info-item"><span class="label">资产负债率</span><span class="value">39.13%</span></div>
+    </div>
+    <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.04);">
+      <div style="font-size:13px; color:#8892a4; margin-bottom:8px;">营收结构</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:rgba(79,172,254,0.12); color:#4facfe; padding:3px 10px; border-radius:8px; font-size:12px;">增值服务 49.1%</span>
+        <span style="background:rgba(46,213,115,0.12); color:#2ed573; padding:3px 10px; border-radius:8px; font-size:12px;">金融科技 30.5%</span>
+        <span style="background:rgba(255,165,2,0.12); color:#ffa502; padding:3px 10px; border-radius:8px; font-size:12px;">营销服务 19.3%</span>
+        <span style="background:rgba(255,255,255,0.06); color:#8892a4; padding:3px 10px; border-radius:8px; font-size:12px;">其他 1.1%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical -->
+  <div class="info-card">
+    <h2>📈 技术指标</h2>
+    <div class="info-grid">
+      <div class="info-item"><span class="label">MA5/20/60</span><span class="value red">489/498/527 空头</span></div>
+      <div class="info-item"><span class="label">MACD</span><span class="value red">DIF-8.48 死叉</span></div>
+      <div class="info-item"><span class="label">RSI6</span><span class="value red">24.75 超卖</span></div>
+      <div class="info-item"><span class="label">KDJ-K</span><span class="value red">19.53 超卖</span></div>
+      <div class="info-item"><span class="label">布林带</span><span class="value">525/498/471 近下轨</span></div>
+      <div class="info-item"><span class="label">主力净流入</span><span class="value green">+HK$1.91亿</span></div>
+    </div>
+  </div>
+
+  <!-- Value Faction -->
+  <div class="faction">
+    <div class="faction-header">
+      <span class="faction-icon">🏛️</span>
+      <span class="faction-title">价值派</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">查理·芒格</span>
+        <span class="member-score">7/10</span>
+      </div>
+      <div class="member-judgment">腾讯的护城河——微信13亿用户网络效应——是真实的。PE 17倍买毛利率56%、ROE 21%的公司，不算贵。反过来想：AI投入翻倍，管理层是在"做对的事"还是"赶时髦"？马化腾的历史记录让我倾向于信任他。</div>
+      <div class="member-risk">⚠️ Prosus持续减持+AI投入回报不确定，双杀可能</div>
+      <div class="member-detail">能力圈：部分圈内 | 止损：HK$400</div>
+      <span class="member-allocation">💰 70/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">沃伦·巴菲特</span>
+        <span class="member-score">7/10</span>
+      </div>
+      <div class="member-judgment">腾讯就像一座收费站——13亿人每天经过微信，收费站还在涨价。PE 17倍买年增长14%的生意，安全边际有限但合理。如果你打算持有10年，473港元是合理的入场点，但不是"恐慌甩卖"价。</div>
+      <div class="member-risk">⚠️ AI资本开支翻倍可能侵蚀未来自由现金流</div>
+      <div class="member-detail">能力圈：部分圈内 | 止损：HK$390</div>
+      <span class="member-allocation">💰 65/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">段永平</span>
+        <span class="member-score">7/10</span>
+      </div>
+      <div class="member-judgment">微信是不可替代的——符合"一句话说清楚"标准。如果明天退市，我愿意持有它的股份。分红从2.4涨到5.3港元，管理层在做对的事。AI投入翻倍？我不理解就不评论，但马化腾的本分让我信任。</div>
+      <div class="member-risk">⚠️ Prosus大股东持续减持，股价上形成持续压力</div>
+      <div class="member-detail">动机审查：✅ 通过 | 止损：HK$380</div>
+      <span class="member-allocation">💰 72/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">彼得·林奇</span>
+        <span class="member-score">7/10</span>
+      </div>
+      <div class="member-judgment">PE 17倍，增速14%，PEG约1.2，不算便宜但合理。广告业务增速17%，这是"三倍股"的潜在线索。胃比脑重要——如果因为跌了16%就睡不着，说明仓位太重。</div>
+      <div class="member-risk">⚠️ AI投入让利润增速可能放缓，PEG可能变差</div>
+      <div class="member-detail">研究建议：关注5月13日Q1财报广告收入和AI资本开支</div>
+      <span class="member-allocation">💰 68/100</span>
+    </div>
+  </div>
+
+  <!-- Macro Faction -->
+  <div class="faction">
+    <div class="faction-header">
+      <span class="faction-icon">🌍</span>
+      <span class="faction-title">宏观周期派</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">霍华德·马克斯</span>
+        <span class="member-score">7/10</span>
+      </div>
+      <div class="member-judgment">市场正在从"AI狂热"（3月566）修正到"AI现实"（473），这种修正是健康的。情绪从"乐观"转向"悲观"，但还没到"极度恐惧"——有一定安全边际，但不是最佳击球区。</div>
+      <div class="member-risk">⚠️ 周期位置：从高潮期→失望情绪蔓延</div>
+      <div class="member-detail">情绪温度：悲观 | 操作：分批建仓，470第一笔，430-440第二笔</div>
+      <span class="member-allocation">💰 60/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">德鲁肯米勒</span>
+        <span class="member-score">6/10</span>
+      </div>
+      <div class="member-judgment">宏观顺风不够——港股流动性改善但美联储偏鹰，中国央行宽松有限。催化剂？5月13日Q1财报不够大。没有明确流动性拐点就不加码。从566跌到473，大概率是回调不是崩盘，但不是重仓时机。</div>
+      <div class="member-risk">⚠️ 催化剂：Q1财报（5月13日）</div>
+      <div class="member-detail">建议仓位：5%观察 | 止损：HK$445 | 目标：HK$520-540</div>
+      <span class="member-allocation">💰 50/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">周金涛</span>
+        <span class="member-score">6/10</span>
+      </div>
+      <div class="member-judgment">康波萧条期末期→回升前夜，朱格拉周期在AI资本开支驱动下可能开启新扩张，但基钦短周期正处于下行调整期。港股科技中周期受益AI趋势，短周期不宜急。</div>
+      <div class="member-risk">⚠️ AI资本开支增速放缓或监管收紧，朱格拉扩张逻辑断裂</div>
+      <div class="member-detail">长：萧条期末 | 中：AI扩张初期 | 短：下行调整1-2月</div>
+      <span class="member-allocation">💰 55/100</span>
+    </div>
+  </div>
+
+  <!-- Quant Faction -->
+  <div class="faction">
+    <div class="faction-header">
+      <span class="faction-icon">📊</span>
+      <span class="faction-title">量化技术派</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">詹姆斯·西蒙斯</span>
+        <span class="member-score">5/10</span>
+      </div>
+      <div class="member-judgment">①动量：负动量，vs MA60 -10.1%，趋势明确下行 ②成交量：27日放量暴跌后28日缩量跌，抛压减弱但未反转 ③波动率：布林带尚未收缩，方向未明 ④均值偏离：vs MA200 -16.3%，接近超卖但非极端 ⑤历史胜率：RSI超卖+MACD死叉，30日反弹概率55-60%</div>
+      <div class="member-risk">⚠️ 低于60%胜率不做，需量能确认</div>
+      <div class="member-detail">止损：HK$448(ATR法) | 加仓信号：5日站上MA20+斜率转正+放量</div>
+      <span class="member-allocation">💰 35/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">Wu2198</span>
+        <span class="member-score">5/10</span>
+      </div>
+      <div class="member-judgment">大概率还在调整中，别急。长线向上，中线向下，短线偏空——三级趋势不统一，不满仓。4月27日放量杀跌，28日缩量跌，汽油不够，大概率还要磨底。</div>
+      <div class="member-risk">⚠️ 量能萎缩+价格创新低，偏弱形态</div>
+      <div class="member-detail">仓位：35% | 止损：HK$450</div>
+      <span class="member-allocation">💰 35/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">禅师（缠中说禅）</span>
+        <span class="member-score">4/10</span>
+      </div>
+      <div class="member-judgment">日线级别，从566形成下跌趋势，中枢490-520，当前473跌破中枢下沿进入趋势延伸段。下方关注471（布林下轨）和460附近支撑。当前无买点——日线一买需等底背驰确认，尚未出现。</div>
+      <div class="member-risk">⚠️ 别抄底，没有背驰信号就是没有买点</div>
+      <div class="member-detail">止损：HK$458 | 下一支撑：460-470</div>
+      <span class="member-allocation">💰 20/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">威科夫</span>
+        <span class="member-score">4/10</span>
+      </div>
+      <div class="member-judgment">供应主导市场。4月27日放量下跌=供应柱确认，28日缩量跌=需求不足。从566到473的派发过程可能已完成，SOW已出现，价格跌破前期支撑490-500。</div>
+      <div class="member-risk">⚠️ 没有吸筹信号就入场，是接飞刀</div>
+      <div class="member-detail">当前阶段：派发后下跌 | SOS需回到490+放量 | 止损：HK$468</div>
+      <span class="member-allocation">💰 25/100</span>
+    </div>
+  </div>
+
+  <!-- Risk Faction -->
+  <div class="faction">
+    <div class="faction-header">
+      <span class="faction-icon">⚡</span>
+      <span class="faction-title">风险对冲派</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">纳西姆·塔勒布</span>
+        <span class="member-score">6/10</span>
+      </div>
+      <div class="member-judgment">腾讯是"半凹半反脆弱"——核心业务顺周期（危机中收入下降），但1,562亿港元现金+3,355亿经营现金流提供了危机中抄底的能力。PE 17不是问题，问题是肥尾事件（监管打击、AI泡沫破裂、中美脱钩）可能带来50%+回撤。</div>
+      <div class="member-risk">⚠️ 中美科技脱钩→微信被制裁→海外收入归零</div>
+      <div class="member-detail">凸性：凹性为主 | 杠铃建议：90%安全侧+看跌期权对冲</div>
+      <span class="member-allocation">💰 50/100</span>
+    </div>
+
+    <div class="member-card">
+      <div class="member-header">
+        <span class="member-name">乔治·索罗斯</span>
+        <span class="member-score">6/10</span>
+      </div>
+      <div class="member-judgment">我可能是错的，但市场对腾讯的偏见正从"AI万能"转向"AI烧钱无底洞"。价格从566跌到473就是偏见逆转的结果。PE 17倍暗示市场已不期待AI奇迹，这反而可能是反向的起点。</div>
+      <div class="member-risk">⚠️ 偏见逆转可能继续——AI投入确实可能拖垮利润率</div>
+      <div class="member-detail">当前偏见：AI烧钱拖累利润 | 转折信号：Q1广告增速>20%</div>
+      <span class="member-allocation">💰 50/100</span>
+    </div>
+  </div>
+
+  <!-- Debate Section -->
+  <div class="debate-section">
+    <h2 style="color:#fff; font-size:18px; margin-bottom:16px;">🔥 辩论质询记录</h2>
+
+    <div class="debate-card">
+      <div class="debate-label">质询1：估值 vs 技术（高分歧）</div>
+      <div class="debate-text">
+        <strong>主席→价值派</strong>：港股科技股技术面空头时PE可压缩到12-13倍（2022先例），凭什么认为PE 17就是底？<br>
+        <strong>芒格回应</strong>：2022年是三重打击（版号+中概+清零），今天没有等量级利空。"好的价格买好的生意"不需要等到最便宜。<br><br>
+        <strong>主席→量化派</strong>：RSI6=24.75的港股大盘股历史30日反弹概率55-60%，为什么无视？<br>
+        <strong>西蒙斯回应</strong>：55-60%胜率意味着40-45%继续下跌。低于60%胜率不做。承认量能站上MA20后胜率提升至65%+。
+      </div>
+    </div>
+
+    <div class="debate-card">
+      <div class="debate-label">质询2：AI投入效果（高分歧）</div>
+      <div class="debate-text">
+        <strong>主席→巴菲特</strong>：管理层把利润砸进AI，是在做对的事还是烧钱？<br>
+        <strong>巴菲特回应</strong>：看资本配置历史——微信、游戏、支付、视频号，每次大手笔投入最终都创造价值。AI是下一个？不确定但概率偏向"是"。<br><br>
+        <strong>主席→塔勒布</strong>：1,562亿现金+3,355亿经营现金流，危机中能抄底，这不就是"反脆弱"？<br>
+        <strong>塔勒布回应</strong>：有意思的反驳。腾讯确实"半凹半反脆弱"，微调评分+1。
+      </div>
+    </div>
+
+    <div class="debate-card">
+      <div class="debate-label">质询3：时机判断（中分歧）</div>
+      <div class="debate-text">
+        <strong>主席→马克斯</strong>："分批建仓"的依据是什么？<br>
+        <strong>马克斯回应</strong>：周期位置+情绪温度。港股大盘股PE&lt;20+情绪悲观时，12个月正收益概率约70%。<br><br>
+        <strong>主席→Wu2198</strong>：70%12月胜率不算大概率吗？<br>
+        <strong>Wu2198回应</strong>：70%是12月胜率，不是短线。能扛住1-2月波动的话入场概率偏多，微调35%。
+      </div>
+    </div>
+  </div>
+
+  <!-- Vote Table -->
+  <div class="info-card">
+    <h2>📋 投票一览表</h2>
+    <table class="vote-table">
+      <thead>
+        <tr><th>#</th><th>委员</th><th>派系</th><th>评分</th><th>资金分配</th><th>分配比例</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>芒格</td><td>🏛️价值</td><td>7/10</td><td>70/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:70%"></div></div></td></tr>
+        <tr><td>2</td><td>巴菲特</td><td>🏛️价值</td><td>7/10</td><td>65/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:65%"></div></div></td></tr>
+        <tr><td>3</td><td>段永平</td><td>🏛️价值</td><td>7/10</td><td>72/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:72%"></div></div></td></tr>
+        <tr><td>4</td><td>林奇</td><td>🏛️价值</td><td>7/10</td><td>68/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:68%"></div></div></td></tr>
+        <tr><td>5</td><td>马克斯</td><td>🌍宏观</td><td>7/10</td><td>60/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:60%"></div></div></td></tr>
+        <tr><td>6</td><td>德鲁肯米勒</td><td>🌍宏观</td><td>6/10</td><td>50/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:50%"></div></div></td></tr>
+        <tr><td>7</td><td>周金涛</td><td>🌍宏观</td><td>6/10</td><td>55/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:55%"></div></div></td></tr>
+        <tr><td>8</td><td>西蒙斯</td><td>📊量化</td><td>5/10</td><td>35/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:35%"></div></div></td></tr>
+        <tr><td>9</td><td>Wu2198</td><td>📊量化</td><td>5/10</td><td>35/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:35%"></div></div></td></tr>
+        <tr><td>10</td><td>禅师</td><td>📊量化</td><td>4/10</td><td>20/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:20%"></div></div></td></tr>
+        <tr><td>11</td><td>威科夫</td><td>📊量化</td><td>4/10</td><td>25/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:25%"></div></div></td></tr>
+        <tr><td>12</td><td>塔勒布</td><td>⚡风险</td><td>6/10</td><td>50/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:50%"></div></div></td></tr>
+        <tr><td>13</td><td>索罗斯</td><td>⚡风险</td><td>6/10</td><td>50/100</td><td><div class="allocation-bar"><div class="allocation-fill" style="width:50%"></div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Veto Section -->
+  <div class="info-card">
+    <h2>🚫 否决规则检查</h2>
+    <div class="veto-section">
+      <div class="veto-item veto-pass">✅ 硬否决：仅2位≤4分（禅师4、威科夫4），未触发≥4位</div>
+      <div class="veto-item veto-pass">✅ 马克斯软否决：评分7（>5），情绪悲观（非贪婪），未触发</div>
+      <div class="veto-item veto-pass">✅ 段永平动机审查：通过</div>
+      <div class="veto-item veto-trigger">⚠️ 西蒙斯动量看空：触发软否决 → 仓位减20-30%</div>
+      <div class="veto-item veto-trigger">⚠️ 禅师/威科夫卖出信号：触发软否决 → 仓位≤20%</div>
+      <div class="veto-item veto-trigger">⚠️ 周金涛短周期下行：部分触发 → 中周期上行抵消</div>
+    </div>
+  </div>
+
+  <!-- Action Guide -->
+  <div class="action-guide">
+    <h2>🎯 操作指南</h2>
+    <div class="action-row"><span class="action-label">裁决</span><span class="action-value buy">保守买入</span></div>
+    <div class="action-row"><span class="action-label">建议仓位</span><span class="action-value">5-8%（量能确认后可加至10-15%）</span></div>
+    <div class="action-row"><span class="action-label">第一笔建仓</span><span class="action-value buy">HK$470-475 → 3-4%仓位</span></div>
+    <div class="action-row"><span class="action-label">第二笔加仓</span><span class="action-value buy">HK$440-450（如回调）→ 再加2-3%</span></div>
+    <div class="action-row"><span class="action-label">量能加仓条件</span><span class="action-value">放量站上HK$498(MA20)+连续5日</span></div>
+    <div class="action-row"><span class="action-label">止损线</span><span class="action-value stop">HK$445（跌破即清仓）</span></div>
+    <div class="action-row"><span class="action-label">目标价1</span><span class="action-value">HK$520-540 → 减仓1/3</span></div>
+    <div class="action-row"><span class="action-label">目标价2</span><span class="action-value">HK$570+ → 再减1/3</span></div>
+  </div>
+
+  <!-- Key Logic -->
+  <div class="info-card">
+    <h2>🧠 核心逻辑</h2>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:13px; color:#2ed573; font-weight:600; margin-bottom:6px;">看多因素</div>
+      <ul style="list-style:none; font-size:13px; color:#c0ccda;">
+        <li>✅ 微信13亿用户护城河，不可替代</li>
+        <li>✅ PE 17倍处于历史偏低区间</li>
+        <li>✅ 分红持续增长（2.4→5.3港元/股）</li>
+        <li>✅ AI长期引擎+视频号商业化加速</li>
+        <li>✅ 情绪从乐观转向悲观（马克斯安全边际形成点）</li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:13px; color:#ff4757; font-weight:600; margin-bottom:6px;">看空因素</div>
+      <ul style="list-style:none; font-size:13px; color:#c0ccda;">
+        <li>❌ 技术面全面空头（MACD死叉/RSI超卖/跌破均线）</li>
+        <li>❌ AI投入短期拖利润，资本开支翻倍</li>
+        <li>❌ Prosus持续减持，股价上方压力</li>
+        <li>❌ 基钦短周期仍下行，需1-2月磨底</li>
+        <li>❌ 肥尾风险：监管/地缘政治/中美脱钩</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>投资委员会 v2.1 · 主席调度+四派系分组+辩论质询+资金分配投票</div>
+    <div style="margin-top:6px;">数据来源：腾讯财经API · WeStock Data · 网络搜索 | 生成时间：2026-04-28 21:35</div>
+    <div style="margin-top:6px; color:#ff6b81;">⚠️ 本报告不构成投资建议，投资有风险，决策需谨慎</div>
+  </div>
+
+</div>
+</body>
+</html>
