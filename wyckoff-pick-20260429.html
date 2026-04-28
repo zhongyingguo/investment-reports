@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>威科夫早盘选股报告 | 2026-04-29</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#0a0e17;color:#e0e6f0;line-height:1.7}
+.container{max-width:960px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px;border-bottom:1px solid #1e2a3a}
+header h1{font-size:28px;background:linear-gradient(135deg,#ff6b6b,#ffa07a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+header .subtitle{color:#7a8ba8;font-size:14px}
+header .date{color:#4a9eff;font-size:16px;font-weight:600;margin-top:8px}
+
+.method-box{background:linear-gradient(135deg,#1a1f2e,#1e2538);border:1px solid #2a3a4e;border-radius:12px;padding:20px;margin:20px 0}
+.method-box h2{color:#4a9eff;font-size:18px;margin-bottom:12px}
+.method-box p{color:#8a9ab8;font-size:13px;line-height:1.8}
+
+.pool-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.stat-card{background:#141822;border:1px solid #1e2a3a;border-radius:10px;padding:16px;text-align:center}
+.stat-card .num{font-size:28px;font-weight:700;color:#4a9eff}
+.stat-card .label{font-size:12px;color:#5a6a88;margin-top:4px}
+
+.section{margin:25px 0}
+.section h2{font-size:20px;color:#e0e6f0;margin-bottom:15px;padding-bottom:8px;border-bottom:1px solid #1e2a3a;display:flex;align-items:center;gap:8px}
+.section h2 .icon{font-size:22px}
+
+.recommend-card{background:linear-gradient(135deg,#1a2233,#162030);border:1px solid #2a3a5e;border-radius:14px;padding:22px;margin:16px 0;position:relative;overflow:hidden}
+.recommend-card.gold{border-color:#ffd700;box-shadow:0 0 20px rgba(255,215,0,0.1)}
+.recommend-card.silver{border-color:#c0c0c0;box-shadow:0 0 15px rgba(192,192,192,0.08)}
+.recommend-card.bronze{border-color:#cd7f32;box-shadow:0 0 15px rgba(205,127,50,0.08)}
+
+.rank-badge{position:absolute;top:12px;right:16px;font-size:32px}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.card-header .stock-name{font-size:22px;font-weight:700;color:#fff}
+.card-header .stock-code{font-size:14px;color:#5a8aff;background:#1a2a4a;padding:2px 8px;border-radius:4px}
+.card-header .sector-tag{font-size:12px;color:#ffa07a;background:#2a1a1a;padding:2px 8px;border-radius:4px}
+
+.wyckoff-phase{display:inline-block;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:600;margin:6px 0}
+.phase-lps{background:#1a3a1a;color:#4aff4a;border:1px solid #2a5a2a}
+.phase-sos{background:#1a2a3a;color:#4a9eff;border:1px solid #2a4a6a}
+
+.trade-plan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.trade-item{background:#0d1117;border-radius:8px;padding:12px;text-align:center}
+.trade-item .label{font-size:11px;color:#5a6a88;margin-bottom:4px}
+.trade-item .value{font-size:18px;font-weight:700}
+.trade-item.buy .value{color:#ff4a4a}
+.trade-item.stop .value{color:#ffa07a}
+.trade-item.target .value{color:#4aff4a}
+
+.volume-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+.volume-table th{background:#141822;color:#5a8aff;padding:8px;text-align:left;font-weight:600}
+.volume-table td{padding:6px 8px;border-bottom:1px solid #1a1f2e}
+.volume-table tr:hover{background:#1a1f2e}
+.vol-low{color:#4aff4a;font-weight:600}
+.vol-high{color:#ff4a4a;font-weight:600}
+.price-up{color:#ff4a4a}
+.price-down{color:#4aff4a}
+
+.avoid-card{background:#1a1212;border:1px solid #3a1a1a;border-radius:10px;padding:16px;margin:10px 0}
+.avoid-card .stock-name{color:#ff6b6b;font-weight:600}
+.avoid-card .reason{color:#8a6a6a;font-size:13px;margin-top:4px}
+
+.watch-card{background:#1a1a12;border:1px solid #3a3a1a;border-radius:10px;padding:16px;margin:10px 0}
+.watch-card .stock-name{color:#ffd700;font-weight:600}
+.watch-card .reason{color:#8a8a6a;font-size:13px;margin-top:4px}
+
+.summary-box{background:linear-gradient(135deg,#1a2233,#141822);border:1px solid #2a4a6e;border-radius:14px;padding:22px;margin:20px 0}
+.summary-box h3{color:#4a9eff;margin-bottom:12px}
+.summary-box p{color:#8a9ab8;font-size:14px;line-height:1.9}
+
+.disclaimer{background:#0d1117;border:1px solid #1a1f2e;border-radius:10px;padding:16px;margin:20px 0;text-align:center}
+.disclaimer p{color:#5a6a88;font-size:12px}
+
+@media(max-width:640px){
+  .container{padding:12px}
+  header h1{font-size:22px}
+  .pool-stats{grid-template-columns:repeat(2,1fr)}
+  .trade-plan{grid-template-columns:1fr}
+  .recommend-card{padding:16px}
+  .rank-badge{font-size:24px;top:8px;right:10px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>📊 威科夫早盘选股报告</h1>
+  <div class="subtitle">量价分析 · 供求关系 · CM意图识别</div>
+  <div class="date">2026年4月29日 星期三 · 盘前</div>
+</header>
+
+<!-- 筛选方法 -->
+<div class="method-box">
+  <h2>🔍 选股方法</h2>
+  <p><strong>第一步：量化筛选</strong> — 从全A股13000个代码中，用以下条件筛选：</p>
+  <p>① (14天均价+28天均价+57天均价+117天均价)/4 ＜ 收盘价<br>
+  ② 股价 ＞ 60日均线<br>
+  ③ 日线KDJ之J ＜ 30（超卖区）<br>
+  ④ 周线MACD柱 ＞ 0（多头趋势）<br>
+  ⑤ 月线MACD柱 ＞ 0（多头趋势）<br>
+  ⑥ 排除ST股票</p>
+  <p style="margin-top:10px"><strong>第二步：威科夫量价分析</strong> — 从筛选池中，用威科夫5步法分析价量行为，识别CM意图，排除派发股，选出吸筹完毕/上升中继的股票。</p>
+</div>
+
+<!-- 筛选结果概览 -->
+<div class="pool-stats">
+  <div class="stat-card"><div class="num">13000</div><div class="label">扫描代码</div></div>
+  <div class="stat-card"><div class="num">239</div><div class="label">通过量化筛选</div></div>
+  <div class="stat-card"><div class="num">216</div><div class="label">排除ST后</div></div>
+  <div class="stat-card"><div class="num">3</div><div class="label">威科夫推荐</div></div>
+</div>
+
+<!-- ====== 大盘背景 ====== -->
+<div class="section">
+  <h2><span class="icon">📈</span>一、大盘背景（Step 1）</h2>
+  <div class="recommend-card">
+    <p style="color:#8a9ab8;line-height:2;font-size:14px">
+      <strong style="color:#4aff4a">上证指数：牛市中继，短期回调</strong><br>
+      📊 上证从3930涨至4106（4/22），目前在4078-4086区间缩量整固<br>
+      📊 4/23放量回落（6.71亿手），但随后量能递减（5.89→6.00亿手）<br>
+      📊 量能趋势：短期供应减弱，但需求尚未重新发力<br><br>
+      <strong style="color:#4a9eff">威科夫判断：大盘处于Phase D</strong> — 上升途中的正常回调（LPS区域）<br>
+      ⚡ 操作策略：可以精选个股做多，但要严格止损
+    </p>
+  </div>
+</div>
+
+<!-- ====== 威科夫推荐 ====== -->
+<div class="section">
+  <h2><span class="icon">🏆</span>二、威科夫推荐买入</h2>
+
+  <!-- 🥇 宁德时代 -->
+  <div class="recommend-card gold">
+    <span class="rank-badge">🥇</span>
+    <div class="card-header">
+      <span class="stock-name">宁德时代</span>
+      <span class="stock-code">sz300750</span>
+      <span class="sector-tag">锂电龙头</span>
+    </div>
+    <div style="margin:8px 0;font-size:13px;color:#8a9ab8">
+      收盘 <span class="price-up">427.67</span> | J值 28.5 | 周MACD 10.07 | 月MACD 24.70 | 溢价7.0%
+    </div>
+    <span class="wyckoff-phase phase-lps">LPS（最后支撑点）形成中</span>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 价量行为分析</h4>
+    <table class="volume-table">
+      <tr><th>日期</th><th>收盘</th><th>量比</th><th>行为</th><th>威科夫判断</th></tr>
+      <tr><td>4/10</td><td class="price-up">409.09</td><td>×1.4</td><td>放量长阳突破</td><td style="color:#4a9eff">SOS 强势出现</td></tr>
+      <tr><td>4/16</td><td class="price-up">447.07</td><td class="vol-high">×1.8</td><td>放量冲高</td><td style="color:#ffa07a">JOC 跳离震荡区</td></tr>
+      <tr><td>4/17</td><td class="price-down">437.29</td><td>×1.0</td><td>正常回落</td><td>正常回调</td></tr>
+      <tr><td>4/20</td><td class="price-down">425.59</td><td>×1.5</td><td>放量回调</td><td style="color:#ffa07a">⚠️ 关注供应</td></tr>
+      <tr><td>4/21</td><td class="price-up">440.69</td><td class="vol-high">×1.6</td><td>放量反弹</td><td style="color:#4aff4a">需求仍在！</td></tr>
+      <tr><td>4/24</td><td class="price-up">444.90</td><td>×1.1</td><td>温和上涨</td><td>需求温和</td></tr>
+      <tr><td>4/27</td><td class="price-down">434.88</td><td class="vol-low">×0.9</td><td>缩量回调</td><td style="color:#4aff4a">供应枯竭 ✅</td></tr>
+      <tr><td>4/28</td><td class="price-up">427.67</td><td>×1.0</td><td>量能平稳</td><td>LPS确认中</td></tr>
+    </table>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 CM意图判断</h4>
+    <p style="color:#8a9ab8;font-size:13px;line-height:1.9">
+      CM在维持上升趋势。证据：<br>
+      ✅ 4/16 JOC放量突破（需求控制）<br>
+      ✅ 回调缩量（4/27量比仅×0.9，供应枯竭）<br>
+      ✅ 4/21回调后放量反弹（需求随时在场）<br>
+      ✅ 无BC（抢购高潮）迹象 — 没有天量天价<br>
+      <strong style="color:#4aff4a">结论：CM在吸筹/加仓，不是在派发。</strong>
+    </p>
+
+    <div class="trade-plan">
+      <div class="trade-item buy"><div class="label">进场区间</div><div class="value">423-428</div></div>
+      <div class="trade-item stop"><div class="label">止损位</div><div class="value">418</div></div>
+      <div class="trade-item target"><div class="label">目标位</div><div class="value">455+</div></div>
+    </div>
+    <p style="color:#5a6a88;font-size:12px">确认条件：回测425-428缩量企稳 → 买入；若放量跌破418 → 放弃</p>
+  </div>
+
+  <!-- 🥈 德业股份 -->
+  <div class="recommend-card silver">
+    <span class="rank-badge">🥈</span>
+    <div class="card-header">
+      <span class="stock-name">德业股份</span>
+      <span class="stock-code">sh605117</span>
+      <span class="sector-tag">逆变器龙头</span>
+    </div>
+    <div style="margin:8px 0;font-size:13px;color:#8a9ab8">
+      收盘 <span class="price-up">139.97</span> | J值 27.1 | 周MACD 6.09 | 月MACD 15.51 | 溢价11.7%
+    </div>
+    <span class="wyckoff-phase phase-lps">LPS（最后支撑点）— 供应枯竭</span>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 价量行为分析</h4>
+    <table class="volume-table">
+      <tr><th>日期</th><th>收盘</th><th>量比</th><th>行为</th><th>威科夫判断</th></tr>
+      <tr><td>4/13</td><td class="price-up">146.94</td><td class="vol-high">×2.4</td><td>天量长阳</td><td style="color:#4a9eff">SOS 超级强势</td></tr>
+      <tr><td>4/15</td><td class="price-down">136.30</td><td>×1.2</td><td>正常回调</td><td>正常获利回吐</td></tr>
+      <tr><td>4/21</td><td class="price-down">143.01</td><td class="vol-low">×0.5</td><td>极度缩量</td><td style="color:#4aff4a">供应完全枯竭 ✅</td></tr>
+      <tr><td>4/22</td><td class="price-up">145.20</td><td class="vol-low">×0.6</td><td>缩量微涨</td><td style="color:#4aff4a">死角形成 ✅</td></tr>
+      <tr><td>4/24</td><td class="price-down">146.82</td><td class="vol-low">×0.7</td><td>缩量回调</td><td style="color:#4aff4a">供应持续枯竭 ✅</td></tr>
+      <tr><td>4/27</td><td class="price-down">140.70</td><td>×0.9</td><td>温和回调</td><td>测试支撑</td></tr>
+      <tr><td>4/28</td><td class="price-up">139.97</td><td class="vol-low">×0.6</td><td>极度缩量</td><td style="color:#4aff4a">死角交易法信号 ✅</td></tr>
+    </table>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 CM意图判断</h4>
+    <p style="color:#8a9ab8;font-size:13px;line-height:1.9">
+      CM在等待，准备再次发力。证据：<br>
+      ✅ 4/13 SOS天量长阳（CM建仓完毕，需求爆发）<br>
+      ✅ 5日均量/30日均量 = 0.74（近期量能萎缩26%）<br>
+      ✅ 4/21和4/28两次极度缩量（×0.5和×0.6）— 死角形成<br>
+      ✅ 价格在138-145窄幅整理，高低点收敛 — 即将选择方向<br>
+      <strong style="color:#4aff4a">结论：死角交易法 — 缩量收敛后向上突破概率大，这是低风险进场点。</strong>
+    </p>
+
+    <div class="trade-plan">
+      <div class="trade-item buy"><div class="label">进场区间</div><div class="value">138-141</div></div>
+      <div class="trade-item stop"><div class="label">止损位</div><div class="value">135</div></div>
+      <div class="trade-item target"><div class="label">目标位</div><div class="value">150-155</div></div>
+    </div>
+    <p style="color:#5a6a88;font-size:12px">确认条件：放量突破145 → 加仓；缩量跌破135 → 放弃</p>
+  </div>
+
+  <!-- 🥉 东方电气 -->
+  <div class="recommend-card bronze">
+    <span class="rank-badge">🥉</span>
+    <div class="card-header">
+      <span class="stock-name">东方电气</span>
+      <span class="stock-code">sh600875</span>
+      <span class="sector-tag">电力设备</span>
+    </div>
+    <div style="margin:8px 0;font-size:13px;color:#8a9ab8">
+      收盘 <span class="price-down">39.54</span> | J值 3.5 | 周MACD 0.93 | 月MACD 4.66 | 溢价7.8%
+    </div>
+    <span class="wyckoff-phase phase-lps">LPS（最后支撑点）— 深度回调</span>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 价量行为分析</h4>
+    <table class="volume-table">
+      <tr><th>日期</th><th>收盘</th><th>量比</th><th>行为</th><th>威科夫判断</th></tr>
+      <tr><td>4/16</td><td class="price-up">42.04</td><td class="vol-high">×1.6</td><td>放量长阳</td><td style="color:#4a9eff">SOS 强势出现</td></tr>
+      <tr><td>4/23</td><td class="price-down">43.82</td><td class="vol-high">×1.5</td><td>高开低走</td><td style="color:#ffa07a">⚠️ 可能PSY</td></tr>
+      <tr><td>4/24</td><td class="price-down">41.47</td><td>×1.0</td><td>正常回落</td><td>自然回落</td></tr>
+      <tr><td>4/27</td><td class="price-down">40.35</td><td class="vol-low">×0.8</td><td>缩量回调</td><td>供应减弱</td></tr>
+      <tr><td>4/28</td><td class="price-down">39.54</td><td class="vol-low">×0.6</td><td>缩量继续回调</td><td style="color:#4aff4a">供应枯竭 ✅</td></tr>
+    </table>
+
+    <h4 style="color:#5a8aff;margin:14px 0 8px;font-size:14px">📌 CM意图判断</h4>
+    <p style="color:#8a9ab8;font-size:13px;line-height:1.9">
+      信号混合，但偏向积极。证据：<br>
+      ✅ 4/16 SOS放量长阳（需求控制）<br>
+      ⚠️ 4/23高量冲高回落（可能是初次供应PSY，但未形成完整BC）<br>
+      ✅ 4/27-28量能急剧萎缩（×0.8→×0.6）— 供应枯竭<br>
+      ✅ J值=3.5（极度超卖）— 短期反弹概率极高<br>
+      ⚠️ 60日涨幅64%（24→39），需警惕获利盘<br>
+      <strong style="color:#ffd700">结论：偏向积极但不完美。4/23的PSY需要后续确认。若4/29企稳反弹则LPS确认。</strong>
+    </p>
+
+    <div class="trade-plan">
+      <div class="trade-item buy"><div class="label">进场区间</div><div class="value">39-40</div></div>
+      <div class="trade-item stop"><div class="label">止损位</div><div class="value">38.0</div></div>
+      <div class="trade-item target"><div class="label">目标位</div><div class="value">44-45</div></div>
+    </div>
+    <p style="color:#5a6a88;font-size:12px">确认条件：4/29企稳收阳 → 买入；若跌破38 → 等待二次测试</p>
+  </div>
+</div>
+
+<!-- ====== 观望名单 ====== -->
+<div class="section">
+  <h2><span class="icon">👁️</span>三、观望名单（等确认）</h2>
+  
+  <div class="watch-card">
+    <span class="stock-name">卓胜微 sz300782</span> | 收盘104.69 | J=11.1
+    <div class="reason">4/23放量下跌(-6.9%)后企稳，需确认100-102支撑有效。若缩量回测100不破 → 可进场，止损97。</div>
+  </div>
+  <div class="watch-card">
+    <span class="stock-name">长飞光纤 sh601869</span> | 收盘373.49 | J=26.5
+    <div class="reason">4/22冲高417后回落，4/28缩量至×0.6。需确认365-370支撑。若缩量企稳 → 可进场，止损360。</div>
+  </div>
+  <div class="watch-card">
+    <span class="stock-name">胜宏科技 sz300476</span> | 收盘313.06 | J=24.9
+    <div class="reason">4/17放量冲335后回调，量能递减。需确认305-310支撑。PCB龙头基本面强，回调缩量是积极信号。</div>
+  </div>
+</div>
+
+<!-- ====== 回避名单 ====== -->
+<div class="section">
+  <h2><span class="icon">🚫</span>四、威科夫回避（派发迹象）</h2>
+  <p style="color:#8a6a6a;font-size:13px;margin-bottom:12px">以下股票虽通过量化筛选，但威科夫量价分析发现CM在派发（出货），<strong>不要买</strong>。</p>
+
+  <div class="avoid-card">
+    <span class="stock-name">腾景科技 sh688195</span> | 4/23: -9.3%天量 | 4/24-28: 连续下跌
+    <div class="reason">❌ 典型BC（抢购高潮）+ 派发。4/23天量长阴是CM出货铁证，后续下跌确认派发。不要抄底。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">德科立 sh688205</span> | 4/23: -10.6%天量 | 量能仍高
+    <div class="reason">❌ 4/23极端天量(-10.6%)=BC。后续量能维持高位=CM持续出货。远离。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">光库科技 sz300620</span> | 4/23: -11.9%天量
+    <div class="reason">❌ -11.9%的天量下跌是教科书级BC。供应完全控制市场。远离。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">联特科技 sz301205</span> | 4/23: -8.1%高量 | 持续缩量下跌
+    <div class="reason">❌ BC后持续阴跌，缩量下跌说明需求完全缺席。不抄底。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">炬光科技 sh688167</span> | 4/23: -9.1%天量
+    <div class="reason">❌ BC+派发。4/23-24两天跌去15%，CM大规模出货。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">九安医疗 sz002432</span> | 4/22: BC+4/23-28持续下跌
+    <div class="reason">❌ 4/22冲高94.94后连续6天下跌至74.91，典型的派发后熊市走势。</div>
+  </div>
+  <div class="avoid-card">
+    <span class="stock-name">航天电器 sz002025</span> | 4/28: -5.1%放量下跌
+    <div class="reason">❌ 4/28放量(-5.1%)打破支撑，供应突然增加。等供应消耗完再考虑。</div>
+  </div>
+</div>
+
+<!-- ====== 核心逻辑总结 ====== -->
+<div class="summary-box">
+  <h3>💡 威科夫选股核心逻辑</h3>
+  <p>
+    量化条件筛出的216只股票，是"技术面多头+短期超卖"的候选池。<br><br>
+    但<strong style="color:#ff6b6b">不是所有超卖都该买</strong>。威科夫的关键在于区分：<br>
+    ✅ <strong style="color:#4aff4a">吸筹完毕的回调</strong>（LPS）→ 供应枯竭，CM即将拉升 → 买<br>
+    ❌ <strong style="color:#ff4a4a">派发完毕的下跌</strong>（BC→SOW）→ CM已出货，散户接盘 → 不买<br><br>
+    本报告推荐3只，核心原因是：<strong>它们的回调是缩量的</strong>（供应枯竭），<strong>没有BC</strong>（没有抢购高潮），<strong>CM仍在场内</strong>（需求随时响应）。<br><br>
+    回避7只，核心原因是：<strong>4/23集体出现BC</strong>（天量天价），<strong>CM在出货</strong>，<strong>下跌放量</strong>（供应控制市场）。<br><br>
+    <strong style="color:#ffd700">记住：价格和成交量从不说谎。不要抄底，等确认。</strong>
+  </p>
+</div>
+
+<!-- 风险提示 -->
+<div class="disclaimer">
+  <p>⚠️ 本报告仅为技术分析方法的演示，不构成任何投资建议。股市有风险，投资需谨慎。</p>
+  <p>威科夫分析法基于历史价量数据，不能保证未来收益。任何交易决策请结合自身风险承受能力。</p>
+</div>
+
+</div>
+</body>
+</html>
