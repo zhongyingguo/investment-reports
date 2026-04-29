@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>威科夫行业优先选股报告 | 2026-04-30</title>
+<style>
+:root{--bg:#0a0e17;--card:#111827;--card2:#1a2332;--border:#1e2d3d;--text:#e2e8f0;--muted:#8892a4;--gold:#f59e0b;--red:#ef4444;--green:#10b981;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0;border-bottom:1px solid var(--border);margin-bottom:30px}
+header h1{font-size:28px;background:linear-gradient(135deg,var(--gold),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+header .subtitle{color:var(--muted);font-size:14px;margin-top:8px}
+.market-box{background:var(--card);border-radius:12px;padding:20px;margin-bottom:25px;border:1px solid var(--border)}
+.market-box h2{font-size:18px;color:var(--gold);margin-bottom:12px}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.market-item{background:var(--card2);border-radius:8px;padding:15px}
+.market-item .label{color:var(--muted);font-size:12px}
+.market-item .value{font-size:22px;font-weight:700;margin-top:4px}
+.market-item .yellow{color:#fbbf24}
+.market-item .green{color:var(--green)}
+.market-item .red{color:var(--red)}
+.flow-section{margin-bottom:30px}
+.flow-section h2{font-size:20px;color:var(--cyan);margin-bottom:15px;padding-left:12px;border-left:3px solid var(--cyan)}
+.flow-step{background:var(--card);border-radius:10px;padding:16px;margin-bottom:10px;border:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.flow-step .step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.flow-step .step-text{font-size:14px}
+.industry-stats{background:var(--card);border-radius:12px;padding:20px;margin-bottom:25px;border:1px solid var(--border)}
+.industry-stats h2{font-size:18px;color:var(--gold);margin-bottom:15px}
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.ind-item{background:var(--card2);border-radius:8px;padding:12px;text-align:center}
+.ind-item .ind-name{font-size:13px;color:var(--muted)}
+.ind-item .ind-count{font-size:24px;font-weight:700;color:var(--cyan)}
+.ind-item.priority{border:1px solid var(--gold)}
+.ind-item.priority .ind-name{color:var(--gold)}
+.stock-card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:16px;border:1px solid var(--border)}
+.stock-card.buy{border-left:4px solid var(--green)}
+.stock-card.watch{border-left:4px solid var(--gold)}
+.stock-card.avoid{border-left:4px solid var(--red)}
+.stock-card .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.stock-card .stock-name{font-size:20px;font-weight:700}
+.stock-card .stock-code{color:var(--muted);font-size:13px;margin-left:8px}
+.stock-card .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-buy{background:rgba(16,185,129,0.15);color:var(--green)}
+.badge-watch{background:rgba(245,158,11,0.15);color:var(--gold)}
+.badge-avoid{background:rgba(239,68,68,0.15);color:var(--red)}
+.stock-card .industry-tag{display:inline-block;padding:2px 8px;border-radius:4px;background:rgba(6,182,212,0.15);color:var(--cyan);font-size:11px;margin-left:8px}
+.stock-card .rating{font-size:24px;color:var(--gold)}
+.stock-card .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.stock-card .detail-item{background:var(--card2);border-radius:6px;padding:10px}
+.stock-card .detail-item .dl{color:var(--muted);font-size:11px}
+.stock-card .detail-item .dv{font-size:15px;font-weight:600;margin-top:2px}
+.stock-card .analysis{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:10px}
+.stock-card .analysis strong{color:var(--text)}
+.stock-card .action-box{background:rgba(16,185,129,0.08);border-radius:8px;padding:12px;margin-top:8px}
+.stock-card.watch .action-box{background:rgba(245,158,11,0.08)}
+.stock-card.avoid .action-box{background:rgba(239,68,68,0.08)}
+.stock-card .action-box .action-label{font-weight:600;font-size:13px;margin-bottom:6px}
+.stock-card.buy .action-label{color:var(--green)}
+.stock-card.watch .action-label{color:var(--gold)}
+.stock-card.avoid .action-label{color:var(--red)}
+.stock-card .action-detail{font-size:12px;color:var(--muted);line-height:1.8}
+.stock-card .action-detail span{font-weight:600;color:var(--text)}
+.summary-box{background:linear-gradient(135deg,rgba(6,182,212,0.1),rgba(59,130,246,0.1));border-radius:12px;padding:20px;margin-top:25px;border:1px solid rgba(6,182,212,0.3)}
+.summary-box h2{font-size:18px;color:var(--cyan);margin-bottom:12px}
+.summary-box .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.summary-box .summary-item{text-align:center;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px}
+.summary-box .summary-item .sl{font-size:12px;color:var(--muted)}
+.summary-box .summary-item .sv{font-size:20px;font-weight:700;margin-top:4px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:30px}
+.wyckoff-principle{background:var(--card);border-radius:12px;padding:20px;margin-bottom:25px;border:1px solid var(--border)}
+.wyckoff-principle h2{font-size:18px;color:var(--purple);margin-bottom:12px}
+.wyckoff-principle p{font-size:13px;color:var(--muted);line-height:1.8}
+.wyckoff-principle .highlight{color:var(--gold);font-weight:600}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+<h1>🎯 威科夫行业优先选股报告</h1>
+<div class="subtitle">优化流程：股票池量化筛选 → 行业分组 → AI硬件/半导体优先 → 威科夫5步法分析 | 2026-04-30</div>
+</header>
+
+<!-- 大盘背景 -->
+<div class="market-box">
+<h2>📊 Step 1：大盘趋势定位</h2>
+<div class="market-grid">
+<div class="market-item">
+<div class="label">上证指数</div>
+<div class="value green">4107.51</div>
+<div class="label" style="margin-top:4px">4/29 +1.12% 放量上涨</div>
+</div>
+<div class="market-item">
+<div class="label">国证2000</div>
+<div class="value">10930.01</div>
+<div class="label" style="margin-top:4px">MA25: 10544 | MA60: 10689</div>
+</div>
+<div class="market-item">
+<div class="label">国证指标</div>
+<div class="value yellow">🟡 黄灯</div>
+<div class="label" style="margin-top:4px">指数>MA25 但MA25<MA60，中期趋势未完全转好</div>
+</div>
+<div class="market-item">
+<div class="label">趋势判断</div>
+<div class="value" style="font-size:18px">震荡偏多</div>
+<div class="label" style="margin-top:4px">大盘SOS确认中，4/29放量反弹关键</div>
+</div>
+</div>
+</div>
+
+<!-- 优化流程 -->
+<div class="flow-section">
+<h2>🔄 优化选股流程</h2>
+<div class="flow-step"><div class="step-num">1</div><div class="step-text">量化筛选全A股311只（4均线<收盘价 + 股价>60日均线 + 日线J<30 + 月线DEA>0 + 排除ST）</div></div>
+<div class="flow-step"><div class="step-num">2</div><div class="step-text">按行业分组：21个行业，识别AI硬件/半导体/光通信/通信/电子等5大优先行业共48只</div></div>
+<div class="flow-step"><div class="step-num">3</div><div class="step-text">优先分析重点行业 → 威科夫5步法逐只分析价量行为</div></div>
+<div class="flow-step"><div class="step-num">4</div><div class="step-text">筛选买入/观望/回避，给出进场点、止损位、目标位</div></div>
+</div>
+
+<!-- 行业统计 -->
+<div class="industry-stats">
+<h2>🏭 行业分组统计（311只 → 5大优先行业48只）</h2>
+<div class="ind-grid">
+<div class="ind-item priority"><div class="ind-name">🔥 AI硬件/算力</div><div class="ind-count">6</div></div>
+<div class="ind-item priority"><div class="ind-name">🔥 半导体/集成电路</div><div class="ind-count">6</div></div>
+<div class="ind-item priority"><div class="ind-name">🔥 光通信/光电子</div><div class="ind-count">18</div></div>
+<div class="ind-item priority"><div class="ind-name">🔥 通信/5G</div><div class="ind-count">6</div></div>
+<div class="ind-item priority"><div class="ind-name">🔥 电子/元器件</div><div class="ind-count">12</div></div>
+<div class="ind-item"><div class="ind-name">电力设备/新能源</div><div class="ind-count">13</div></div>
+<div class="ind-item"><div class="ind-name">医药生物</div><div class="ind-count">13</div></div>
+<div class="ind-item"><div class="ind-name">稀土/有色金属</div><div class="ind-count">8</div></div>
+<div class="ind-item"><div class="ind-name">汽车/零部件</div><div class="ind-count">8</div></div>
+<div class="ind-item"><div class="ind-name">环保</div><div class="ind-count">7</div></div>
+<div class="ind-item"><div class="ind-name">银行/金融</div><div class="ind-count">7</div></div>
+<div class="ind-item"><div class="ind-name">其他</div><div class="ind-count">168</div></div>
+</div>
+</div>
+
+<!-- 威科夫原则 -->
+<div class="wyckoff-principle">
+<h2>📐 威科夫选股原则：行业是线索，价量是证据</h2>
+<p>行业优先筛选 ≠ 按行业标签买入。<span class="highlight">即使是最热的AI行业，如果价量行为没有出现吸筹完毕信号（SOS + JOC），绝不进场。</span>概念再好，CM没建仓完，就是去送钱。行业标签帮我们提高效率——先把最可能出牛股的行业看完，但最终决策必须由价量证据决定。</p>
+</div>
+
+<!-- ====== 买入推荐 ====== -->
+
+<div class="stock-card buy">
+<div class="card-header">
+<div><span class="stock-name">瑞可达</span><span class="stock-code">sh688800</span><span class="industry-tag">电子/元器件-连接器</span></div>
+<div><span class="rating">⭐⭐⭐⭐</span><span class="badge badge-buy">立刻买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">92.42</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+6.1%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">8.71</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">90.63</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">89.67</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">9.488</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① 4/29 <strong>放量SOS信号</strong>：从89.76低点拉起到92.42，成交量放大到2.0倍均值，这是一个明确的JOC（跳离震荡区）行为。<br>
+② 4/23-4/28期间连续6天缩量回调，从95.50跌到90.17，成交量从1.0x递减到0.8x，<strong>供应枯竭</strong>。<br>
+③ 连接器龙头，AI数据中心高速互联核心供应商，行业逻辑通顺。<br>
+④ 30日震荡区79.41-99.50，当前在区间中部偏上，4/29的SOS确认需求重新控制市场。
+</div>
+<div class="action-box">
+<div class="action-label">✅ 行动：立刻买入</div>
+<div class="action-detail">
+进场点：<span>91-93</span>（4/29 SOS确认区间）<br>
+止损：<span>89.00</span>（4/29低点下方，跌破则SOS失败）<br>
+目标1：<span>99.50</span>（30日震荡区顶部）<br>
+目标2：<span>108</span>（点数图测量目标）<br>
+确认条件：后续回调缩量，不破90.00
+</div>
+</div>
+</div>
+
+<div class="stock-card buy">
+<div class="card-header">
+<div><span class="stock-name">超声电子</span><span class="stock-code">sz000823</span><span class="industry-tag">电子/元器件-PCB</span></div>
+<div><span class="rating">⭐⭐⭐⭐</span><span class="badge badge-buy">买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">15.19</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+11.0%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">-11.9</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">14.93</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">14.85</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">1.071</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① J值-11.9极度超卖，这是威科夫弹簧效应（Spring）的典型数值特征。<br>
+② 4/28-4/29 <strong>连续缩量</strong>：成交量从0.9x降到0.6x，回调到MA20(14.93)附近，<strong>供应枯竭信号</strong>明确。<br>
+③ 20日相对强弱+11.0%，回调前强于大盘，说明CM在维持上升趋势。<br>
+④ PCB/电子元器件，受益AI硬件产业链。
+</div>
+<div class="action-box">
+<div class="action-label">✅ 行动：买入</div>
+<div class="action-detail">
+进场点：<span>15.00-15.30</span>（MA20附近）<br>
+止损：<span>14.70</span>（MA60下方）<br>
+目标1：<span>16.50</span>（前期高点）<br>
+目标2：<span>17.50</span><br>
+确认条件：4/30放量阳线确认Spring
+</div>
+</div>
+</div>
+
+<div class="stock-card buy">
+<div class="card-header">
+<div><span class="stock-name">国博电子</span><span class="stock-code">sh688375</span><span class="industry-tag">半导体/集成电路</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-buy">买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">123.04</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+1.9%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">-11.5</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">120.56</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">117.84</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">8.744</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① J值-11.5超卖，从135.4跌到123.0，5日跌9.46%，这是急跌洗盘的弹簧效应。<br>
+② 4/28-4/29 <strong>连续缩量</strong>：成交量从1.0x降到0.6x，<strong>供应枯竭</strong>。<br>
+③ 价格在MA20(120.56)附近企稳，这是LPS（最后支撑点）形成的条件。<br>
+④ 半导体有源相控阵雷达T/R组件核心供应商，国防+半导体双重逻辑。
+</div>
+<div class="action-box">
+<div class="action-label">✅ 行动：买入</div>
+<div class="action-detail">
+进场点：<span>121-124</span>（MA20附近）<br>
+止损：<span>119.00</span>（跌破MA60则LPS失败）<br>
+目标1：<span>132</span>（前期高点）<br>
+目标2：<span>140</span><br>
+确认条件：4/30放量阳线站上125
+</div>
+</div>
+</div>
+
+<!-- ====== 观望转买入 ====== -->
+
+<div class="stock-card watch">
+<div class="card-header">
+<div><span class="stock-name">光库科技</span><span class="stock-code">sz300620</span><span class="industry-tag">光通信/光电子-光器件</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-watch">观望→买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">235.25</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+23.1%（极强）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">-5.1</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">233.19</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">190.13</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">25.01</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① 20日相对强弱+23.1%，<strong>全池最强</strong>。4/23从280暴跌到247（SC），之后缩量回调到235。<br>
+② 4/28-4/29成交量降到0.6x，<strong>供应枯竭</strong>明确。价格在MA20(233.19)附近。<br>
+③ 光通信核心器件，AI算力光互联需求爆发，行业逻辑最强。<br>
+④ 风险：4/23跌幅14%+，可能是BC（抢购高潮）后派发。需确认是SC还是BC。<br>
+⑤ 判断依据：月线DEA=25（趋势向上），MA60=190远低于当前价（长期上升趋势），SC概率>BC。
+</div>
+<div class="action-box">
+<div class="action-label">⚠️ 行动：等MA20企稳确认后买入</div>
+<div class="action-detail">
+观望条件：<span>4/30在233附近缩量企稳</span><br>
+进场点：<span>233-238</span>（MA20确认区间）<br>
+止损：<span>228.00</span>（跌破MA20则SC失败）<br>
+目标1：<span>260</span><br>
+目标2：<span>280</span>（前期高点）
+</div>
+</div>
+</div>
+
+<div class="stock-card watch">
+<div class="card-header">
+<div><span class="stock-name">长飞光纤</span><span class="stock-code">sh601869</span><span class="industry-tag">光通信/光电子-光纤龙头</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-watch">观望→买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">370.52</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+10.7%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">12.7</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">368.74</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">267.25</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">30.30</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① 光纤光缆全球龙头，4/23从411跌到385（SC），之后MA20(368.74)附近缩量企稳。<br>
+② 4/28-4/29量降到0.7x，供应枯竭。MA60=267远低于当前，长期上升趋势完好。<br>
+③ 月线DEA=30.3极高，趋势方向明确向上。4/23的下跌更可能是SC而非BC。<br>
+④ 光通信算力底座逻辑，受益AI数据中心光纤需求。
+</div>
+<div class="action-box">
+<div class="action-label">⚠️ 行动：等MA20企稳确认后买入</div>
+<div class="action-detail">
+观望条件：<span>4/30在368-372缩量企稳</span><br>
+进场点：<span>368-375</span><br>
+止损：<span>362.00</span>（跌破MA20则出场）<br>
+目标1：<span>400</span><br>
+目标2：<span>422</span>（前高）
+</div>
+</div>
+</div>
+
+<div class="stock-card watch">
+<div class="card-header">
+<div><span class="stock-name">中恒电气</span><span class="stock-code">sz002364</span><span class="industry-tag">电力设备-AI数据中心供电</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-watch">观望→买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">39.75</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+43.7%（极强）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">-18.6</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">37.48</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">33.87</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">4.859</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① 20日RS +43.7%，全池第二强。J值-18.6极度超卖——这是弹簧效应的极端值。<br>
+② 4/20-21放量冲到45.45（可能BC），之后缩量回调到39.75。4/29量仅0.6x。<br>
+③ AI数据中心HVDC电源核心供应商，行业逻辑通顺。<br>
+④ 风险：30日区间宽78%（波动极大），4/20-21的放量上涨可能是BC（抢购高潮）。<br>
+⑤ 需要确认：回调到MA20(37.48)附近能否缩量企稳。目前离MA20还有5.7%距离。
+</div>
+<div class="action-box">
+<div class="action-label">⚠️ 行动：等回调到MA20(37.48)附近企稳后买入</div>
+<div class="action-detail">
+观望条件：<span>回调到37-38缩量企稳</span><br>
+进场点：<span>37.50-39.00</span><br>
+止损：<span>36.00</span><br>
+目标1：<span>43.00</span><br>
+目标2：<span>45.50</span>（前高）
+</div>
+</div>
+</div>
+
+<div class="stock-card watch">
+<div class="card-header">
+<div><span class="stock-name">优刻得-W</span><span class="stock-code">sh688158</span><span class="industry-tag">AI硬件/算力-云计算</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-watch">观望→买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">45.81</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+4.9%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">-2.3</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">45.85</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">42.45</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">3.549</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① AI云计算龙头，回调到MA20(45.85)附近，几乎精确踩线。<br>
+② 4/27-4/29连续3天缩量（0.7-0.9x），供应枯竭。J=-2.3超卖。<br>
+③ 20日RS+4.9%强于大盘，说明CM在维护上升趋势。<br>
+④ 风险：4/23放量冲到52.94后回落，可能是BC。需确认MA20支撑有效。
+</div>
+<div class="action-box">
+<div class="action-label">⚠️ 行动：等MA20(45.85)企稳确认后买入</div>
+<div class="action-detail">
+观望条件：<span>4/30在45-46缩量企稳</span><br>
+进场点：<span>45.50-46.50</span><br>
+止损：<span>44.00</span>（跌破4/29低点则出场）<br>
+目标1：<span>49.00</span><br>
+目标2：<span>53.00</span>（前高）
+</div>
+</div>
+</div>
+
+<div class="stock-card watch">
+<div class="card-header">
+<div><span class="stock-name">中国西电</span><span class="stock-code">sh601179</span><span class="industry-tag">电力设备-特高压</span></div>
+<div><span class="rating">⭐⭐⭐</span><span class="badge badge-watch">观望→买入</span></div>
+</div>
+<div class="detail-grid">
+<div class="detail-item"><div class="dl">收盘价</div><div class="dv">17.15</div></div>
+<div class="detail-item"><div class="dl">20日相对强弱</div><div class="dv" style="color:var(--green)">+3.7%（强于大盘）</div></div>
+<div class="detail-item"><div class="dl">日线KDJ-J</div><div class="dv">16.5</div></div>
+<div class="detail-item"><div class="dl">MA20</div><div class="dv">16.69</div></div>
+<div class="detail-item"><div class="dl">MA60</div><div class="dv">16.43</div></div>
+<div class="detail-item"><div class="dl">月线DEA</div><div class="dv">1.294</div></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong><br>
+① 4/20 <strong>放量SOS</strong>：从16.76拉到18.22，量1.7x，这是明确的需求进入信号。<br>
+② 之后回调到17.15，量递减到0.7x，供应枯竭。当前在MA20(16.69)上方。<br>
+③ 特高压+AI数据中心电力配套，行业逻辑支撑。<br>
+④ 30日区间14.82-18.51，4/20的SOS突破了区间上半部分。
+</div>
+<div class="action-box">
+<div class="action-label">⚠️ 行动：等MA20确认后买入</div>
+<div class="action-detail">
+观望条件：<span>4/30在17.00附近缩量企稳</span><br>
+进场点：<span>16.80-17.30</span><br>
+止损：<span>16.40</span>（MA60下方）<br>
+目标1：<span>18.50</span>（区间顶部）<br>
+目标2：<span>19.50</span>
+</div>
+</div>
+</div>
+
+<!-- ====== 回避 ====== -->
+
+<div class="stock-card avoid">
+<div class="card-header">
+<div><span class="stock-name">新朋股份</span><span class="stock-code">sz002328</span><span class="industry-tag">上期推荐→失效</span></div>
+<div><span class="badge badge-avoid">❌ 回避</span></div>
+</div>
+<div class="analysis">
+<strong>价量行为更新：</strong>4/16放量冲到13.40（BC抢购高潮），之后连续9天下跌到10.67，量递减但价格持续新低。这是<strong>派发Phase B→C</strong>，CM在4/16出货完毕。上期推荐已失效，<strong>立刻止损</strong>。4/28-29缩量反弹属于LPSY（最后供应点），不是买入机会。
+</div>
+</div>
+
+<div class="stock-card avoid">
+<div class="card-header">
+<div><span class="stock-name">和胜股份</span><span class="stock-code">sz002824</span><span class="industry-tag">上期推荐→失效</span></div>
+<div><span class="badge badge-avoid">❌ 回避</span></div>
+</div>
+<div class="analysis">
+<strong>价量行为更新：</strong>4/17放量到30.18（BC），之后持续下跌到25.75。量递减但价格不涨，这是<strong>派发过程中的缩量阴跌</strong>，供应持续超过需求。4/27-29连续缩量回调，这是LPSY，不是LPS。上期推荐失效，<strong>止损出局</strong>。
+</div>
+</div>
+
+<div class="stock-card avoid">
+<div class="card-header">
+<div><span class="stock-name">腾景科技</span><span class="stock-code">sh688195</span><span class="industry-tag">光通信/光电子</span></div>
+<div><span class="badge badge-avoid">❌ 回避</span></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong>4/23从400暴跌到363（量1.7x），之后继续跌到323。虽然RS+10.6%强于大盘，但5日跌-18.5%过于剧烈。两种可能：①SC（恐慌抛售）②BC后派发。目前无法确认。如果4/30能放量反弹站上335，则SC确认可抄底；否则按BC派发处理。<strong>回避，等方向明确</strong>。
+</div>
+</div>
+
+<div class="stock-card avoid">
+<div class="card-header">
+<div><span class="stock-name">炬光科技</span><span class="stock-code">sh688167</span><span class="industry-tag">光通信/光电子-激光</span></div>
+<div><span class="badge badge-avoid">❌ 回避</span></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong>4/23从395跌到359（量1.3x），RS-1.5%<strong>弱于大盘</strong>。之后继续跌到349，连续缩量阴跌。这是<strong>派发Phase D</strong>，CM在出货。MA20(378)已跌破，趋势转弱。<strong>回避</strong>。
+</div>
+</div>
+
+<div class="stock-card avoid">
+<div class="card-header">
+<div><span class="stock-name">联瑞新材</span><span class="stock-code">sh688300</span><span class="industry-tag">半导体/集成电路</span></div>
+<div><span class="badge badge-avoid">❌ 回避</span></div>
+</div>
+<div class="analysis">
+<strong>价量行为分析：</strong>5日跌-10.7%，20日RS -7.7%<strong>弱于大盘</strong>。从97连续下跌到85，无任何需求进入迹象。MA20(91.22)已跌破，这是<strong>下跌趋势</strong>，不是回调。<strong>回避</strong>。
+</div>
+</div>
+
+<!-- 汇总 -->
+<div class="summary-box">
+<h2>📋 威科夫行业优先选股汇总</h2>
+<div class="summary-grid">
+<div class="summary-item"><div class="sl">🟢 立刻买入</div><div class="sv" style="color:var(--green)">3只</div></div>
+<div class="summary-item"><div class="sl">🟡 观望→买入</div><div class="sv" style="color:var(--gold)">5只</div></div>
+<div class="summary-item"><div class="sl">🔴 回避</div><div class="sv" style="color:var(--red)">5只</div></div>
+</div>
+<div style="margin-top:16px;font-size:13px;line-height:2">
+<table style="width:100%;border-collapse:collapse">
+<tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:8px;color:var(--muted)">信号</th><th style="text-align:left;padding:8px;color:var(--muted)">股票</th><th style="text-align:left;padding:8px;color:var(--muted)">行业</th><th style="text-align:left;padding:8px;color:var(--muted)">进场点</th><th style="text-align:left;padding:8px;color:var(--muted)">止损</th></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--green)">🟢 买入</td><td style="padding:8px;font-weight:600">瑞可达</td><td style="padding:8px">连接器</td><td style="padding:8px">91-93</td><td style="padding:8px">89.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--green)">🟢 买入</td><td style="padding:8px;font-weight:600">超声电子</td><td style="padding:8px">PCB</td><td style="padding:8px">15.00-15.30</td><td style="padding:8px">14.70</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--green)">🟢 买入</td><td style="padding:8px;font-weight:600">国博电子</td><td style="padding:8px">半导体</td><td style="padding:8px">121-124</td><td style="padding:8px">119.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--gold)">🟡 观望</td><td style="padding:8px">光库科技</td><td style="padding:8px">光器件</td><td style="padding:8px">233-238</td><td style="padding:8px">228.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--gold)">🟡 观望</td><td style="padding:8px">长飞光纤</td><td style="padding:8px">光纤龙头</td><td style="padding:8px">368-375</td><td style="padding:8px">362.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--gold)">🟡 观望</td><td style="padding:8px">中恒电气</td><td style="padding:8px">数据中心供电</td><td style="padding:8px">37.50-39</td><td style="padding:8px">36.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--gold)">🟡 观望</td><td style="padding:8px">优刻得-W</td><td style="padding:8px">AI云计算</td><td style="padding:8px">45.50-46.50</td><td style="padding:8px">44.00</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--gold)">🟡 观望</td><td style="padding:8px">中国西电</td><td style="padding:8px">特高压</td><td style="padding:8px">16.80-17.30</td><td style="padding:8px">16.40</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--red)">🔴 回避</td><td style="padding:8px">新朋股份</td><td style="padding:8px">派发</td><td style="padding:8px">-</td><td style="padding:8px">已止损</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--red)">🔴 回避</td><td style="padding:8px">和胜股份</td><td style="padding:8px">派发</td><td style="padding:8px">-</td><td style="padding:8px">已止损</td></tr>
+<tr style="border-bottom:1px solid var(--border)"><td style="padding:8px;color:var(--red)">🔴 回避</td><td style="padding:8px">腾景科技</td><td style="padding:8px">方向不明</td><td style="padding:8px">-</td><td style="padding:8px">-</td></tr>
+<tr><td style="padding:8px;color:var(--red)">🔴 回避</td><td style="padding:8px">炬光科技</td><td style="padding:8px">派发D</td><td style="padding:8px">-</td><td style="padding:8px">-</td></tr>
+</table>
+</div>
+</div>
+
+<footer>
+威科夫行业优先选股报告 | 数据截至 2026-04-29 收盘 | 下一交易日验证入场条件<br>
+风险提示：本报告仅供参考，不构成投资建议。威科夫分析基于历史价量数据，市场随时可能变化。进场前必须确认信号，严格止损。
+</footer>
+
+</div>
+</body>
+</html>
