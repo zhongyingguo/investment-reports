@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wu2198视角选股报告 | 2026-04-29</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0a0e17; color: #e0e0e0; line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+  .header { text-align: center; padding: 30px 0 20px; border-bottom: 1px solid #1e2a3a; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; color: #ff6b35; margin-bottom: 8px; }
+  .header .subtitle { color: #8899aa; font-size: 14px; }
+  .header .market-badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-top: 12px; }
+  .badge-wait { background: rgba(255,165,0,0.15); color: #ffa500; border: 1px solid rgba(255,165,0,0.3); }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 20px; color: #ff6b35; border-left: 4px solid #ff6b35; padding-left: 12px; margin-bottom: 16px; }
+  .card { background: #111827; border: 1px solid #1e2a3a; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .card-recommend { border: 1px solid rgba(255,107,53,0.4); background: linear-gradient(135deg, #111827 0%, #1a1008 100%); }
+  .card-watch { border: 1px solid rgba(255,193,7,0.3); }
+  .card-risk { border: 1px solid rgba(220,53,69,0.3); }
+  .stock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .stock-name { font-size: 22px; font-weight: bold; }
+  .stock-code { color: #8899aa; font-size: 14px; margin-left: 8px; }
+  .star { color: #ff6b35; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; margin-right: 6px; }
+  .tag-hot { background: rgba(220,53,69,0.15); color: #dc3545; border: 1px solid rgba(220,53,69,0.3); }
+  .tag-low { background: rgba(40,167,69,0.15); color: #28a745; border: 1px solid rgba(40,167,69,0.3); }
+  .tag-oversold { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
+  .tag-volume { background: rgba(0,123,255,0.15); color: #007bff; border: 1px solid rgba(0,123,255,0.3); }
+  .tag-risk { background: rgba(220,53,69,0.15); color: #dc3545; border: 1px solid rgba(220,53,69,0.3); }
+  .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 12px 0; }
+  .data-item { background: #0a0e17; padding: 8px 12px; border-radius: 8px; text-align: center; }
+  .data-item .label { font-size: 11px; color: #667; margin-bottom: 2px; }
+  .data-item .value { font-size: 16px; font-weight: bold; }
+  .value-red { color: #ef4444; }
+  .value-green { color: #22c55e; }
+  .value-yellow { color: #f59e0b; }
+  .value-blue { color: #3b82f6; }
+  .analysis-text { margin: 12px 0; color: #c0c8d4; font-size: 14px; }
+  .analysis-text strong { color: #ff6b35; }
+  .stage-check { margin: 12px 0; }
+  .stage-item { display: flex; align-items: center; padding: 4px 0; font-size: 13px; }
+  .stage-item .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; flex-shrink: 0; }
+  .dot-pass { background: #22c55e; }
+  .dot-fail { background: #ef4444; }
+  .dot-warn { background: #f59e0b; }
+  .action-box { background: #0a0e17; border-radius: 8px; padding: 12px 16px; margin-top: 12px; }
+  .action-box .action-label { font-size: 12px; color: #ff6b35; margin-bottom: 6px; }
+  .action-box .action-content { font-size: 14px; color: #e0e0e0; }
+  .pool-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-card { background: #111827; border: 1px solid #1e2a3a; border-radius: 10px; padding: 16px; text-align: center; }
+  .stat-card .num { font-size: 32px; font-weight: bold; }
+  .stat-card .desc { font-size: 12px; color: #667; margin-top: 4px; }
+  .quote-box { background: linear-gradient(135deg, #1a1008, #111827); border: 1px solid rgba(255,107,53,0.2); border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center; }
+  .quote-box .quote-text { font-size: 18px; color: #ff6b35; font-style: italic; margin-bottom: 8px; }
+  .quote-box .quote-author { font-size: 13px; color: #667; }
+  .disclaimer { text-align: center; font-size: 11px; color: #445; margin-top: 30px; padding-top: 20px; border-top: 1px solid #1e2a3a; }
+  .market-section { background: #111827; border: 1px solid #1e2a3a; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .market-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .market-item { text-align: center; padding: 8px; }
+  .market-item .idx-name { font-size: 12px; color: #8899aa; }
+  .market-item .idx-value { font-size: 18px; font-weight: bold; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1a2332; color: #8899aa; padding: 8px 6px; text-align: center; font-weight: normal; border-bottom: 1px solid #1e2a3a; }
+  td { padding: 6px; text-align: center; border-bottom: 1px solid #111827; }
+  tr:hover { background: #111827; }
+  @media (max-width: 640px) {
+    .pool-stats { grid-template-columns: repeat(2, 1fr); }
+    .market-grid { grid-template-columns: repeat(3, 1fr); }
+    .data-grid { grid-template-columns: repeat(3, 1fr); }
+    .header h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>🔥 Wu2198视角 · 早盘选股报告</h1>
+  <div class="subtitle">2026年4月29日 · 从216只量化筛选池中精选</div>
+  <div class="market-badge badge-wait">📊 神哥立场：保守买入 · 等量能确认再动手</div>
+</div>
+
+<!-- 大盘概况 -->
+<div class="section">
+  <div class="section-title">📈 大盘趋势三级判断</div>
+  <div class="market-section">
+    <div class="market-grid">
+      <div class="market-item">
+        <div class="idx-name">上证指数</div>
+        <div class="idx-value value-red">4078</div>
+      </div>
+      <div class="market-item">
+        <div class="idx-name">深证成指</div>
+        <div class="idx-value value-red">14830</div>
+      </div>
+      <div class="market-item">
+        <div class="idx-name">创业板指</div>
+        <div class="idx-value value-red">3597</div>
+      </div>
+      <div class="market-item">
+        <div class="idx-name">沪深300</div>
+        <div class="idx-value value-red">4758</div>
+      </div>
+      <div class="market-item">
+        <div class="idx-name">上证50</div>
+        <div class="idx-value value-red">2950</div>
+      </div>
+    </div>
+    <div style="margin-top: 12px; padding: 12px; background: #0a0e17; border-radius: 8px; font-size: 13px;">
+      <strong style="color:#ff6b35;">Wu2198判断：</strong>上证4078点，远超长期价值区上沿3656。<span class="value-yellow">长线趋势向上</span>，但短线已进入高位区域。这不是说马上涨不动，而是操作上要谨慎——<strong>先考虑能亏多少，再考虑赚多少</strong>。在这个位置，选股比指数更重要。
+    </div>
+  </div>
+</div>
+
+<!-- 股票池概况 -->
+<div class="section">
+  <div class="section-title">📊 股票池筛选概况</div>
+  <div class="pool-stats">
+    <div class="stat-card">
+      <div class="num value-red">239</div>
+      <div class="desc">初筛入围</div>
+    </div>
+    <div class="stat-card">
+      <div class="num value-green">216</div>
+      <div class="desc">排除ST后</div>
+    </div>
+    <div class="stat-card">
+      <div class="num value-yellow">6</div>
+      <div class="desc">J<-15深度超卖</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" style="color:#ff6b35;">3</div>
+      <div class="desc">最终推荐</div>
+    </div>
+  </div>
+  <div style="font-size: 12px; color: #667;">筛选条件：①(14/28/57/117日均价)/4<收盘价 ②股价>60日均线 ③日线J<30 ④周线MACD>0 ⑤月线MACD>0 ⑥排除ST</div>
+</div>
+
+<!-- 首选推荐 -->
+<div class="section">
+  <div class="section-title">🏆 首选推荐 — 低价黑马回调买点</div>
+  
+  <div class="card card-recommend">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name">新朋股份</span>
+        <span class="stock-code">sz002328</span>
+        <span class="star">⭐⭐⭐⭐</span>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 24px; font-weight: bold;" class="value-red">10.67</div>
+        <div style="font-size: 12px; color: #22c55e;">-2.65%</div>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag-low">低价区间</span>
+      <span class="tag tag-oversold">J:-20.31 深度超卖</span>
+      <span class="tag tag-volume">换手12.22%</span>
+      <span class="tag tag-hot">一吃九形态</span>
+    </div>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">收盘价</div><div class="value value-red">10.67</div></div>
+      <div class="data-item"><div class="label">复合均价</div><div class="value">9.12</div></div>
+      <div class="data-item"><div class="label">60日均线</div><div class="value">8.10</div></div>
+      <div class="data-item"><div class="label">日线J值</div><div class="value value-yellow">-20.31</div></div>
+      <div class="data-item"><div class="label">周MACD</div><div class="value value-green">0.91</div></div>
+      <div class="data-item"><div class="label">月MACD</div><div class="value value-green">0.71</div></div>
+      <div class="data-item"><div class="label">PE</div><div class="value">40.14</div></div>
+      <div class="data-item"><div class="label">流通市值</div><div class="value">60.9亿</div></div>
+    </div>
+    
+    <div class="stage-check">
+      <div style="font-size: 13px; color: #ff6b35; margin-bottom: 6px;">🔍 低价黑马八阶段对照</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ①经历大幅下跌 → 3月底7.23元低位 ✅</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ②行业有题材 → 汽车零部件+新能源 ✅</div>
+      <div class="stage-item"><span class="dot dot-warn"></span> ③横盘1年以上 → 横盘时间较短 ⚠️</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ④启动前量能温和放大 → 4月初换手3-5% ✅</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ⑤波动幅度扩大至5%以上 → 4月9日涨9.62% ✅</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ⑥放量至日换手8%+ → 4月13日换手20%+ ✅</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ⑦持续放量 → 4月13-16日持续放量 ✅</div>
+      <div class="stage-item"><span class="dot dot-pass"></span> ⑧回调后J超卖 → J:-20.31深度超卖 ✅</div>
+    </div>
+    
+    <div class="analysis-text">
+      <strong>量能分析：</strong>4月9日放量突破（91万手），4月13日一吃九形态（230万手），4月15日最高13元。之后量能从230万手逐步萎缩至69万手——<strong>量能萎缩到启动前水平，说明抛压减少</strong>。从13.58元回调到10.67元，幅度21%，J值-20.31深度超卖。
+    </div>
+    <div class="analysis-text">
+      <strong>关键判断：</strong>这大概率是第一波上涨后的正常回调。量能已缩到位，J值超卖，周/月MACD趋势向上。很显然，<strong>如果能在10元整数关口缩量止跌，大概率会有反弹</strong>。但注意——这不是"肯定"，只是"大概率"。
+    </div>
+    
+    <div class="action-box">
+      <div class="action-label">🎯 操作建议</div>
+      <div class="action-content">
+        ①关注10元整数关口支撑（约60日均线附近）<br>
+        ②若缩量止跌可分批建仓：<strong>20%底仓</strong>在10元附近<br>
+        ③反弹到11-12元确认量能放大后加仓至<strong>60%</strong><br>
+        ④止损位：<strong>9.5元</strong>（跌破60日均线清仓）<br>
+        ⑤目标位：12-13元（前高区域），大概率反弹空间<strong>15-25%</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 次选推荐 -->
+<div class="section">
+  <div class="section-title">🥈 次选关注 — 低价低估值等量能</div>
+
+  <div class="card card-watch">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name">骆驼股份</span>
+        <span class="stock-code">sh601311</span>
+        <span class="star">⭐⭐⭐</span>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 24px; font-weight: bold;" class="value-red">9.85</div>
+        <div style="font-size: 12px; color: #22c55e;">-2.57%</div>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag-low">低价区间</span>
+      <span class="tag tag-oversold">J:-15.61 超卖</span>
+      <span class="tag" style="background:rgba(40,167,69,0.15);color:#28a745;border:1px solid rgba(40,167,69,0.3);">PE 15.2 低估值</span>
+    </div>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">收盘价</div><div class="value value-red">9.85</div></div>
+      <div class="data-item"><div class="label">复合均价</div><div class="value">9.82</div></div>
+      <div class="data-item"><div class="label">60日均线</div><div class="value">9.69</div></div>
+      <div class="data-item"><div class="label">日线J值</div><div class="value value-yellow">-15.61</div></div>
+      <div class="data-item"><div class="label">周MACD</div><div class="value value-yellow">0.10</div></div>
+      <div class="data-item"><div class="label">月MACD</div><div class="value value-yellow">0.23</div></div>
+      <div class="data-item"><div class="label">PE</div><div class="value value-green">15.20</div></div>
+      <div class="data-item"><div class="label">换手率</div><div class="value">4.02%</div></div>
+    </div>
+    
+    <div class="analysis-text">
+      <strong>亮点：</strong>10元以下低价 + PE仅15.2（极低估值）+ J值超卖。汽车零部件行业，基本面扎实。<br>
+      <strong>问题：</strong>周/月MACD太弱（0.10/0.23），说明中长期趋势不够强。4月22日冲高11.28后回落，当前换手4.02%偏温和——<strong>量能还没配合起来</strong>。<br>
+      <strong>Wu2198判断：</strong>低估值是安全垫，但量能不够就是没油的车跑不远。9.5元以下关注，等一根放量阳线确认再说。
+    </div>
+    
+    <div class="action-box">
+      <div class="action-label">🎯 操作建议</div>
+      <div class="action-content">
+        ①观察9.5元附近是否止跌企稳<br>
+        ②<strong>需放量阳线确认</strong>（日换手5%+）才可介入<br>
+        ③底仓<strong>10%</strong>，确认后加至<strong>40%</strong><br>
+        ④止损：<strong>9.0元</strong>  目标：<strong>10.5-11元</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-watch">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name">通化东宝</span>
+        <span class="stock-code">sh600867</span>
+        <span class="star">⭐⭐⭐</span>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 24px; font-weight: bold;" class="value-red">9.83</div>
+        <div style="font-size: 12px; color: #22c55e;">-2.43%</div>
+      </div>
+    </div>
+    <div>
+      <span class="tag tag-low">低价区间</span>
+      <span class="tag" style="background:rgba(40,167,69,0.15);color:#28a745;border:1px solid rgba(40,167,69,0.3);">PE 15.57 低估值</span>
+      <span class="tag" style="background:rgba(0,123,255,0.15);color:#007bff;border:1px solid rgba(0,123,255,0.3);">医药白马</span>
+    </div>
+    <div class="data-grid">
+      <div class="data-item"><div class="label">收盘价</div><div class="value value-red">9.83</div></div>
+      <div class="data-item"><div class="label">60日均线</div><div class="value">9.20</div></div>
+      <div class="data-item"><div class="label">日线J值</div><div class="value value-yellow">28.09</div></div>
+      <div class="data-item"><div class="label">周MACD</div><div class="value value-green">0.16</div></div>
+      <div class="data-item"><div class="label">月MACD</div><div class="value value-green">0.48</div></div>
+      <div class="data-item"><div class="label">PE</div><div class="value value-green">15.57</div></div>
+    </div>
+    
+    <div class="analysis-text">
+      <strong>亮点：</strong>胰岛素龙头，PE 15.57低估值，行业稳定。4月15日放量冲高10.67后缩量回调，回调幅度不大，走势稳健。<br>
+      <strong>问题：</strong>J值28.09不算深度超卖，量能偏弱（4月28日56万手），周/月MACD也不强。<br>
+      <strong>Wu2198判断：</strong>低估值医药白马，适合稳健投资者。但短期量能不够，不是那种"一吃九"的爆发形态。中长期持有可以，短线等量能。
+    </div>
+    
+    <div class="action-box">
+      <div class="action-label">🎯 操作建议</div>
+      <div class="action-content">
+        ①9.5-9.8元区间可分批建仓<strong>20%底仓</strong><br>
+        ②等放量突破10.5元加仓至<strong>50%</strong><br>
+        ③止损：<strong>9.0元</strong>  中线目标：<strong>11-12元</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 不推荐的 -->
+<div class="section">
+  <div class="section-title">⚠️ 观望/不推荐 — 量能不配合或接飞刀</div>
+  
+  <div class="card card-risk">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name" style="font-size:18px;">奥瑞德</span>
+        <span class="stock-code">sh600666</span>
+        <span class="tag tag-risk">接飞刀</span>
+      </div>
+      <div style="font-size:14px; color:#667;">5.54 · PE 108.85 · 高位放量后持续下跌</div>
+    </div>
+    <div class="analysis-text" style="font-size:13px;">
+      超低价5.54元，高换手12.37%，看起来像黑马。但4月17日高位放量846万手后持续下跌，可能是<strong>主力出货</strong>。PE 108.85太高。这种股，就算再跌到5元也不碰——量能是核心，高位放量后缩量下跌不是洗盘，大概率是出货。<strong>不接飞刀。</strong>
+    </div>
+  </div>
+
+  <div class="card card-risk">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name" style="font-size:18px;">大胜达</span>
+        <span class="stock-code">sh603687</span>
+        <span class="tag tag-risk">暴跌中</span>
+      </div>
+      <div style="font-size:14px; color:#667;">15.12 · -8.25% · 从19.84暴跌24%</div>
+    </div>
+    <div class="analysis-text" style="font-size:13px;">
+      4月28日暴跌8.25%，从19.84元跌到15.12元，换手13.17%——这不是机会，这是<strong>恐慌性出逃</strong>。Wu2198说过，心态出问题要停手，暴跌中的股不要接。<strong>等企稳再说。</strong>
+    </div>
+  </div>
+
+  <div class="card card-risk">
+    <div class="stock-header">
+      <div>
+        <span class="stock-name" style="font-size:18px;">中恒电气</span>
+        <span class="stock-code">sz002364</span>
+        <span class="tag tag-risk">连续涨停股</span>
+      </div>
+      <div style="font-size:14px; color:#667;">40.00 · PE 172 · 不是低价黑马</div>
+    </div>
+    <div class="analysis-text" style="font-size:13px;">
+      4月9-13日连续涨停（31→38元），属于资金炒作。40元不在低价区间，PE 172天价。打开涨停后高位换手9.49%，回调中。这种连续涨停股回调后可能还有第二波，但<strong>风险极大，不是普通散户能把握的</strong>。
+    </div>
+  </div>
+</div>
+
+<!-- 仓位管理 -->
+<div class="section">
+  <div class="section-title">💼 仓位管理建议</div>
+  <div class="card">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <div style="font-size: 14px; color: #ff6b35; margin-bottom: 8px;">⚡ 激进方案</div>
+        <div style="font-size: 13px; color: #c0c8d4;">
+          新朋股份 30% 底仓<br>
+          骆驼股份 10% 观察<br>
+          通化东宝 10% 底仓<br>
+          现金 50%<br>
+          <span style="color: #f59e0b;">确认量能后再加仓</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 14px; color: #3b82f6; margin-bottom: 8px;">🛡️ 稳健方案</div>
+        <div style="font-size: 13px; color: #c0c8d4;">
+          新朋股份 15% 观察<br>
+          通化东宝 10% 底仓<br>
+          现金 75%<br>
+          <span style="color: #22c55e;">等止跌放量阳线再动手</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 16px; padding: 12px; background: #0a0e17; border-radius: 8px; font-size: 13px; color: #f59e0b;">
+      ⚠️ <strong>Wu2198原则：</strong>先考虑能亏多少，再考虑赚多少。单笔最大亏损不超过总资金2-3%。心态出问题就停手，市场永远在那里。
+    </div>
+  </div>
+</div>
+
+<!-- 名言 -->
+<div class="quote-box">
+  <div class="quote-text">"会买是徒弟，会卖才是师傅。活到老学到老，市场才是最好的教科书。"</div>
+  <div class="quote-author">— Wu2198</div>
+</div>
+
+<!-- 免责 -->
+<div class="disclaimer">
+  ⚠️ 本报告基于Wu2198方法论分析，仅供参考，不构成投资建议。股市有风险，入市需谨慎。<br>
+  技术不是万能的，市场才是对的。大概率≠肯定。
+</div>
+
+</div>
+</body>
+</html>
